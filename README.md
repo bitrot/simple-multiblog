@@ -1,7 +1,7 @@
 Simple Multiblog
 ================
 We really liked Simple, Obtvse, and Svbtle, but wanted multiple authors and a few other features.  The original Simple readme follows.  
-\- (rmacy)[https://github.com/rmacy] and (ehaughee)[https://github.com/ehaughee)
+\- [rmacy](https://github.com/rmacy) and [ehaughee](https://github.com/ehaughee)
 
 
 Simple
