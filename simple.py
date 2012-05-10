@@ -63,12 +63,13 @@ def requires_authentication(f):
     def _auth_decorator(*args, **kwargs):
         auth = request.authorization
         if not auth:
-            try:
-                user = db.session.query(User).filter_by(username=auth.username).first()
-            except Exception:
+            return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
+        else:
+            user = db.session.query(User).filter_by(username=auth.username).first()
+            if not (auth.username == db.session.query(User).filter(username=auth.username).first()
+                    and check_password_hash(user.password, auth.password)):
                 return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
-            if not check_password_hash(user.password, auth.password):
-                return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
+
         return f(*args, **kwargs)
 
     return _auth_decorator
