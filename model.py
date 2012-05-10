@@ -7,6 +7,38 @@ import markdown
 
 Base = declarative_base()
 
+class User(Base):
+    __tablename__ = "users"
+
+    id           = Column(Integer(11), Sequence('user_id_sequence'), primary_key = True, nullable = False)
+    username     = Column(String(255), index = True)
+    password     = Column(String(255))
+    email        = Column(String(255))
+    github       = Column(String(255))
+    bio          = Column(Text)
+    created_at   = Column(DateTime, default=datetime.datetime.utcnow(), index = True)
+    updated_at   = Column(DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow())
+
+#    relationship(Post)
+
+    def __init__(self, *args, **kwargs):
+        for key in kwargs:
+            setattr(self, key, kwargs[key])
+
+    def __unicode__(self):
+        return "%s %s %s %s" % (self.id, self.username, self.email, self.github)
+
+    public_field = ('id', 'username', 'email', 'github', 'bio', 'created_at')
+
+    def get_public(self):
+        data = {}
+        for field in self.public_field:
+            data[field] = getattr(self, field, '')
+        return data
+
+    def get_json(self):
+        return json.dumps(self.get_public())
+
 class Post(Base):
     __tablename__ = "posts"
 
@@ -40,35 +72,3 @@ class Post(Base):
 
     def render_content(self):
         return markdown.Markdown(extensions=['fenced_code'], output_format="html5", safe_mode=True).convert(self.text)
-
-class User(Base):
-    __tablename__ = "users"
-
-    id           = Column(Integer(11), Sequence('user_id_sequence'), primary_key = True, nullable = False)
-    username     = Column(String(255), index = True)
-    password     = Column(String(255))
-    email        = Column(String(255))
-    github       = Column(String(255))
-    bio          = Column(Text)
-    created_at   = Column(DateTime, default=datetime.datetime.utcnow(), index = True)
-    updated_at   = Column(DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow())
-
-    relationship(Post)
-
-    def __init__(self, *args, **kwargs):
-        for key in kwargs:
-            setattr(self, key, kwargs[key])
-
-    def __unicode__(self):
-        return "%s %s %s %s" % (self.id, self.username, self.email, self.github)
-
-    public_field = ('id', 'username', 'email', 'github', 'bio', 'created_at')
-
-    def get_public(self):
-        data = {}
-        for field in self.public_field:
-            data[field] = getattr(self, field, '')
-        return data
-
-    def get_json(self):
-        return json.dumps(self.get_public())

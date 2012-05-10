@@ -43,7 +43,7 @@ Engine = create_engine(db_uri)
 Session = sessionmaker(bind=Engine)
 session = Session()
 try:
-    Base.metadata.create_all(Engine)
+    model.Base.metadata.create_all(Engine)
     params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'email': admin_email}
     user = model.User(**params)
     session.add(user)

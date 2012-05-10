@@ -19,6 +19,7 @@ except ImportError:
     print "You need to create the settings file before you can run simple-multiblog!"
 
 app = Flask(__name__)
+app.debug = True
 app.config.from_object('settings')
 
 # TODO: Add error level email handler
@@ -119,6 +120,8 @@ def view_post_slug(slug):
 def new_post():
     post = Post()
     post.title = request.form.get("title","untitled")
+    # TODO: fix this crap below
+    post.author = 1
     post.slug = slugify(post.title)
     post.created_at = datetime.datetime.now()
     post.updated_at = datetime.datetime.now()
@@ -242,7 +245,9 @@ def slugify(text, delim=u'-'):
         if word:
             result.append(word)
     slug = unicode(delim.join(result))
-    _c = db.session.query(Post).filter_by(slug=slug).count()
+    session = Session()
+    _c = session.query(Post).filter_by(slug=slug).count()
+    session.close()
     if _c > 0:
         return "%s%s%s" % (slug, delim, _c)
     else:
