@@ -24,33 +24,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="simple.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="simple.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/simple.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="49" selection-start="91" selection-end="91" vertical-scroll-proportion="0.0">
+            <state line="43" column="19" selection-start="1557" selection-end="1557" vertical-scroll-proportion="0.8333333">
               <folding>
-                <element signature="e#684#1479#0" expanded="false" />
-                <element signature="e#1514#2063#0" expanded="false" />
-                <element signature="e#2148#2779#0" expanded="false" />
-                <element signature="e#2838#3168#0" expanded="false" />
-                <element signature="e#3222#3597#0" expanded="false" />
-                <element signature="e#3688#3983#0" expanded="false" />
-                <element signature="e#4081#4845#0" expanded="false" />
-                <element signature="e#4947#5297#0" expanded="false" />
-                <element signature="e#5387#5734#0" expanded="false" />
-                <element signature="e#5837#6307#0" expanded="false" />
-                <element signature="e#6387#6599#0" expanded="false" />
-                <element signature="e#6642#6858#0" expanded="false" />
-                <element signature="e#6895#7265#0" expanded="false" />
+                <element signature="e#0#9#0" expanded="true" />
+                <element signature="e#2814#3144#0" expanded="false" />
+                <element signature="e#3198#3573#0" expanded="false" />
+                <element signature="e#3664#3959#0" expanded="false" />
+                <element signature="e#4057#4821#0" expanded="false" />
+                <element signature="e#4923#5273#0" expanded="false" />
+                <element signature="e#5363#5710#0" expanded="false" />
+                <element signature="e#5813#6283#0" expanded="false" />
+                <element signature="e#6363#6575#0" expanded="false" />
+                <element signature="e#6618#6834#0" expanded="false" />
+                <element signature="e#6871#7241#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="model.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="model.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="44" selection-start="2737" selection-end="2737" vertical-scroll-proportion="0.8643411">
+            <state line="73" column="44" selection-start="2737" selection-end="2737" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#93#0" expanded="true" />
               </folding>
@@ -61,8 +59,21 @@
       <file leaf-file-name="create_config.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/create_config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="14" selection-start="1175" selection-end="1175" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="24" column="8" selection-start="792" selection-end="792" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#52#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/BorderJump/BorderAuth/BorderAuth/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -81,9 +92,9 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/.requirement" />
-        <option value="$PROJECT_DIR$/simple.py" />
         <option value="$PROJECT_DIR$/model.py" />
         <option value="$PROJECT_DIR$/create_config.py" />
+        <option value="$PROJECT_DIR$/simple.py" />
       </list>
     </option>
   </component>
@@ -338,39 +349,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simple.py">
+    <entry file="file://$USER_HOME$/BorderJump/BorderAuth/BorderAuth/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="49" selection-start="91" selection-end="91" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#684#1479#0" expanded="false" />
-            <element signature="e#1514#2063#0" expanded="false" />
-            <element signature="e#2148#2779#0" expanded="false" />
-            <element signature="e#2838#3168#0" expanded="false" />
-            <element signature="e#3222#3597#0" expanded="false" />
-            <element signature="e#3688#3983#0" expanded="false" />
-            <element signature="e#4081#4845#0" expanded="false" />
-            <element signature="e#4947#5297#0" expanded="false" />
-            <element signature="e#5387#5734#0" expanded="false" />
-            <element signature="e#5837#6307#0" expanded="false" />
-            <element signature="e#6387#6599#0" expanded="false" />
-            <element signature="e#6642#6858#0" expanded="false" />
-            <element signature="e#6895#7265#0" expanded="false" />
+            <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/create_config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="14" selection-start="1175" selection-end="1175" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="24" column="8" selection-start="792" selection-end="792" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="44" selection-start="2737" selection-end="2737" vertical-scroll-proportion="0.8643411">
+        <state line="73" column="44" selection-start="2737" selection-end="2737" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#0#93#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simple.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="19" selection-start="1557" selection-end="1557" vertical-scroll-proportion="0.8333333">
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#2814#3144#0" expanded="false" />
+            <element signature="e#3198#3573#0" expanded="false" />
+            <element signature="e#3664#3959#0" expanded="false" />
+            <element signature="e#4057#4821#0" expanded="false" />
+            <element signature="e#4923#5273#0" expanded="false" />
+            <element signature="e#5363#5710#0" expanded="false" />
+            <element signature="e#5813#6283#0" expanded="false" />
+            <element signature="e#6363#6575#0" expanded="false" />
+            <element signature="e#6618#6834#0" expanded="false" />
+            <element signature="e#6871#7241#0" expanded="false" />
           </folding>
         </state>
       </provider>

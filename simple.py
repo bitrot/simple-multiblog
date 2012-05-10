@@ -12,7 +12,6 @@ from traceback import format_exc
 
 app = Flask(__name__)
 app.config.from_object('settings')
-db = SQLAlchemy(app)
 
 # TODO: Add error level email handler
 
@@ -42,7 +41,7 @@ def requires_authentication(f):
 @app.route("/")
 def index():
     page = request.args.get("page", 0, type=int)
-    posts_master = db.session.query(Post).filter_by(draft=False).order_by(Post.created_at.desc())
+    posts_master = session.query(Post).filter_by(draft=False).order_by(Post.created_at.desc())
     posts_count = posts_master.count()
 
     posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()

@@ -1,4 +1,5 @@
 from werkzeug.security import generate_password_hash
+from traceback import format_exc
 
 def input_with_default(prompt, default):
     x = raw_input("%s (Default %s) "%(prompt, default))
@@ -21,9 +22,7 @@ with open("settings.py", "w") as fd:
 
     db_uri = input_with_default("Database URI","sqlite:///simple.db")
 
-    fd.write('SQLALCHEMY_DATABASE_URI = "%s"\n'%sqlalchemy_uri)
-
-    github_username = input_with_default("Github Username", "")
+    admin_github = input_with_default("Github Username", "")
 
     admin_email = input_with_default("Contact Email", "")
 
@@ -35,16 +34,21 @@ with open("settings.py", "w") as fd:
 
     fd.flush()
 
-username = input_with_default("Admin username","admin")
-password = generate_password_hash(input_with_default("Admin password","password"))
-github   = input_with_default("Github Username", "")
-email    = input_with_default("Contact Email", "")
-
-db.session.add(user)
-db.session.commit()
+import model
+Engine = create_engine(db_uri)
+Session = sessionmaker(bind=Engine)
+session = Session()
+try:
+    Base.metadata.create_all(Engine)
+    params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'email': admin_email}
+    user = model.User(**params)
+    session.add(user)
+    session.commit()
+except:
+    print format_exc()
+finally:
+    session.close()
 
 print "Created!"
 
 raw_input()
-
-# Base.metadata.create_all(Engine)
