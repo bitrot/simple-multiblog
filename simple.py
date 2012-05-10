@@ -5,6 +5,7 @@ from werkzeug.security import check_password_hash
 from unicodedata import normalize
 from model import Post, User
 from flaskext.oauth import OAuth
+from flaskext.sqlalchemy import SQLAlchemy
 from flask import render_template, request, Flask, flash, redirect, url_for, abort, jsonify, Response as response, make_response
 from functools import wraps
 from traceback import format_exc
@@ -28,10 +29,10 @@ def requires_authentication(f):
             try:
                 user = db.session.query(User).filter_by(username=auth.username).first()
             except Exception:
+                app.logger.debug(format_exc())
                 return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
 
-            if not (auth.username == user.username
-                    and check_password_hash(user.password, auth.password)):
+            if not check_password_hash(user.password, auth.password):
                 return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
 
         return f(*args, **kwargs)
@@ -52,13 +53,26 @@ def index():
 
 @app.route("/<author>") # all posts by author
 def view_post_by_author(author):
-    pass
+    page = request.args.get("page", 0, type=int)
+    try:
+        posts_master = db.session.query(Post).filter_by(draft=False, author=author).order_by(Post.created_at.desc())
+    except Exception:
+        app.logger.debug(format_exc())
+        return abort(404)
+    posts_count = posts_master.count()
+
+    posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()
+    is_more = posts_count > ((page*app.config["POSTS_PER_PAGE"]) + app.config["POSTS_PER_PAGE"])
+
+    return render_template("index.html", posts=posts, now=datetime.datetime.now(),
+        is_more=is_more, current_page=page)
 
 @app.route("/<int:post_id>")
 def view_post(post_id):
     try:
         post = db.session.query(Post).filter_by(id=post_id, draft=False).one()
     except Exception:
+        app.logger.debug(format_exc())
         return abort(404)
 
     db.session.query(Post).filter_by(id=post_id).update({Post.views:Post.views+1})
@@ -71,6 +85,7 @@ def view_post_slug(slug):
     try:
         post = db.session.query(Post).filter_by(slug=slug,draft=False).one()
     except Exception:
+        app.logger.debug(format_exc())
         return abort(404)
 
     db.session.query(Post).filter_by(slug=slug).update({Post.views:Post.views+1})
@@ -99,6 +114,7 @@ def edit(id):
     try:
         post = db.session.query(Post).filter_by(id=id).one()
     except Exception:
+        app.logger.debug(format_exc())
         return abort(404)
 
     if request.method == "GET":
@@ -125,6 +141,7 @@ def delete(id):
     try:
         post = db.session.query(Post).filter_by(id=id).one()
     except Exception:
+        app.logger.debug(format_exc())
         flash("Error deleting post ID %s"%id, category="error")
     else:
         db.session.delete(post)
@@ -147,6 +164,7 @@ def save_post(id):
     try:
         post = db.session.query(Post).filter_by(id=id).one()
     except Exception:
+        app.logger.debug(format_exc())
         return abort(404)
     if post.title != request.form.get("title", ""):
         post.title = request.form.get("title","")
@@ -163,6 +181,7 @@ def preview(id):
     try:
         post = db.session.query(Post).filter_by(id=id).one()
     except Exception:
+        app.logger.debug(format_exc())
         return abort(404)
 
     return render_template("post_preview.html", post=post)

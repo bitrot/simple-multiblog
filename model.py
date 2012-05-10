@@ -1,5 +1,3 @@
-from flaskext.sqlalchemy import SQLAlchemy
-
 # setup SQLAlchemy models
 # TODO: use declarative base
 class Post(db.Model):
@@ -7,7 +5,7 @@ class Post(db.Model):
 
     id           = db.Column(db.Integer, primary_key=True)
     title        = db.Column(db.String())
-    author       = db.Column(db.Sring()) # this should be a FK
+    author       = db.Column(db.ForeignKey(User.id)) # this should be a FK
     slug         = db.Column(db.String(), unique=True)
     text         = db.Column(db.String(), default="")
     draft        = db.Column(db.Boolean(), index=True, default=True)
