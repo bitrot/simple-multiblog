@@ -27,19 +27,9 @@
       <file leaf-file-name="simple.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/simple.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="19" selection-start="1557" selection-end="1557" vertical-scroll-proportion="0.8333333">
+            <state line="230" column="0" selection-start="7630" selection-end="7630" vertical-scroll-proportion="4.4573646">
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
-                <element signature="e#2814#3144#0" expanded="false" />
-                <element signature="e#3198#3573#0" expanded="false" />
-                <element signature="e#3664#3959#0" expanded="false" />
-                <element signature="e#4057#4821#0" expanded="false" />
-                <element signature="e#4923#5273#0" expanded="false" />
-                <element signature="e#5363#5710#0" expanded="false" />
-                <element signature="e#5813#6283#0" expanded="false" />
-                <element signature="e#6363#6575#0" expanded="false" />
-                <element signature="e#6618#6834#0" expanded="false" />
-                <element signature="e#6871#7241#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -48,7 +38,7 @@
       <file leaf-file-name="model.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="44" selection-start="2737" selection-end="2737" vertical-scroll-proportion="0.0">
+            <state line="5" column="15" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#93#0" expanded="true" />
               </folding>
@@ -59,20 +49,9 @@
       <file leaf-file-name="create_config.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/create_config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="8" selection-start="792" selection-end="792" vertical-scroll-proportion="0.0">
+            <state line="26" column="26" selection-start="887" selection-end="887" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/BorderJump/BorderAuth/BorderAuth/config.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#36#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -187,7 +166,7 @@
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
-      <module name="BorderAuth" />
+      <module name="simple-multiblog" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
@@ -201,7 +180,7 @@
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
-      <module name="BorderAuth" />
+      <module name="simple-multiblog" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
@@ -340,57 +319,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/BorderJump/BorderAuth/BorderAuth/model.py">
+    <entry file="file://$USER_HOME$/BorderJump/BorderAuth/BorderAuth/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="19" selection-start="3278" selection-end="3278" vertical-scroll-proportion="-2.5676742">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#44#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/BorderJump/BorderAuth/BorderAuth/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
+        <state line="0" column="36" selection-start="36" selection-end="36" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/create_config.py">
+    <entry file="file://$USER_HOME$/BorderJump/BorderAuth/BorderAuth/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="8" selection-start="792" selection-end="792" vertical-scroll-proportion="0.0">
+        <state line="77" column="19" selection-start="3278" selection-end="3278" vertical-scroll-proportion="3.1216216">
           <folding>
-            <element signature="e#0#52#0" expanded="true" />
+            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="44" selection-start="2737" selection-end="2737" vertical-scroll-proportion="0.0">
+        <state line="5" column="15" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#0#93#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/create_config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="26" selection-start="887" selection-end="887" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/simple.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="19" selection-start="1557" selection-end="1557" vertical-scroll-proportion="0.8333333">
+        <state line="230" column="0" selection-start="7630" selection-end="7630" vertical-scroll-proportion="4.4573646">
           <folding>
             <element signature="e#0#9#0" expanded="true" />
-            <element signature="e#2814#3144#0" expanded="false" />
-            <element signature="e#3198#3573#0" expanded="false" />
-            <element signature="e#3664#3959#0" expanded="false" />
-            <element signature="e#4057#4821#0" expanded="false" />
-            <element signature="e#4923#5273#0" expanded="false" />
-            <element signature="e#5363#5710#0" expanded="false" />
-            <element signature="e#5813#6283#0" expanded="false" />
-            <element signature="e#6363#6575#0" expanded="false" />
-            <element signature="e#6618#6834#0" expanded="false" />
-            <element signature="e#6871#7241#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -9,6 +9,14 @@ from flaskext.sqlalchemy import SQLAlchemy
 from flask import render_template, request, Flask, flash, redirect, url_for, abort, jsonify, Response as response, make_response
 from functools import wraps
 from traceback import format_exc
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+try:
+    from settings import BACKEND
+    Engine = create_engine(BACKEND)
+    Session = sessionmaker(bind=Engine)
+except ImportError:
+    print "You need to create the settings file before you can run simple-multiblog!"
 
 app = Flask(__name__)
 app.config.from_object('settings')
@@ -17,7 +25,6 @@ app.config.from_object('settings')
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
-# we are going to replace this probably
 def requires_authentication(f):
     @wraps(f)
     def _auth_decorator(*args, **kwargs):
@@ -26,7 +33,9 @@ def requires_authentication(f):
             return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
         else:
             try:
-                user = db.session.query(User).filter_by(username=auth.username).first()
+                session = Session()
+                user = session.query(User).filter_by(username=auth.username).first()
+                session.close()
             except Exception:
                 app.logger.debug(format_exc())
                 return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
@@ -41,7 +50,9 @@ def requires_authentication(f):
 @app.route("/")
 def index():
     page = request.args.get("page", 0, type=int)
+    session = Session()
     posts_master = session.query(Post).filter_by(draft=False).order_by(Post.created_at.desc())
+    session.close()
     posts_count = posts_master.count()
 
     posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()
@@ -54,7 +65,9 @@ def index():
 def view_post_by_author(author):
     page = request.args.get("page", 0, type=int)
     try:
-        posts_master = db.session.query(Post).filter_by(draft=False, author=author).order_by(Post.created_at.desc())
+        session = Session()
+        posts_master = session.query(Post).filter_by(draft=False, author=author).order_by(Post.created_at.desc())
+        session.close()
     except Exception:
         app.logger.debug(format_exc())
         return abort(404)
@@ -69,26 +82,34 @@ def view_post_by_author(author):
 @app.route("/<int:post_id>")
 def view_post(post_id):
     try:
-        post = db.session.query(Post).filter_by(id=post_id, draft=False).one()
+        session = Session()
+        post = session.query(Post).filter_by(id=post_id, draft=False).one()
+        session.close()
     except Exception:
         app.logger.debug(format_exc())
         return abort(404)
 
-    db.session.query(Post).filter_by(id=post_id).update({Post.views:Post.views+1})
-    db.session.commit()
+    session = Session()
+    session.query(Post).filter_by(id=post_id).update({Post.views:Post.views+1})
+    session.commit()
+    session.close()
 
     return render_template("view.html", post=post)
 
 @app.route("/<slug>")
 def view_post_slug(slug):
     try:
-        post = db.session.query(Post).filter_by(slug=slug,draft=False).one()
+        session = Session()
+        post = session.query(Post).filter_by(slug=slug,draft=False).one()
+        session.close()
     except Exception:
         app.logger.debug(format_exc())
         return abort(404)
 
-    db.session.query(Post).filter_by(slug=slug).update({Post.views:Post.views+1})
-    db.session.commit()
+    session = Session()
+    session.query(Post).filter_by(slug=slug).update({Post.views:Post.views+1})
+    session.commit()
+    session.close()
 
     pid = request.args.get("pid", "0")
     return render_template("view.html", post=post, pid=pid)
@@ -102,8 +123,10 @@ def new_post():
     post.created_at = datetime.datetime.now()
     post.updated_at = datetime.datetime.now()
 
-    db.session.add(post)
-    db.session.commit()
+    session = Session()
+    session.add(post)
+    session.commit()
+    session.close()
 
     return redirect(url_for("edit", id=post.id))
 
@@ -111,7 +134,9 @@ def new_post():
 @requires_authentication
 def edit(id):
     try:
-        post = db.session.query(Post).filter_by(id=id).one()
+        session = Session()
+        post = session.query(Post).filter_by(id=id).one()
+        session.close()
     except Exception:
         app.logger.debug(format_exc())
         return abort(404)
@@ -130,38 +155,49 @@ def edit(id):
         else:
             post.draft = False
 
-        db.session.add(post)
-        db.session.commit()
+        session = Session()
+        session.add(post)
+        session.commit()
+        session.close()
+
         return redirect(url_for("edit", id=id))
 
 @app.route("/delete/<int:id>", methods=["GET","POST"])
 @requires_authentication
 def delete(id):
     try:
-        post = db.session.query(Post).filter_by(id=id).one()
+        session = Session()
+        post = session.query(Post).filter_by(id=id).one()
+        session.close()
     except Exception:
         app.logger.debug(format_exc())
         flash("Error deleting post ID %s"%id, category="error")
     else:
-        db.session.delete(post)
-        db.session.commit()
+        session = Session()
+        session.delete(post)
+        session.commit()
+        session.close()
 
     return redirect(request.args.get("next","") or request.referrer or url_for('index'))
 
 @app.route("/admin", methods=["GET", "POST"])
 @requires_authentication
 def admin():
-    drafts = db.session.query(Post).filter_by(draft=True)\
+    session = Session()
+    drafts = session.query(Post).filter_by(draft=True)\
                                           .order_by(Post.created_at.desc()).all()
-    posts  = db.session.query(Post).filter_by(draft=False)\
+    posts  = session.query(Post).filter_by(draft=False)\
                                           .order_by(Post.created_at.desc()).all()
+    session.close()
     return render_template("admin.html", drafts=drafts, posts=posts)
 
 @app.route("/admin/save/<int:id>", methods=["POST"])
 @requires_authentication
 def save_post(id):
     try:
-        post = db.session.query(Post).filter_by(id=id).one()
+        session = Session()
+        post = session.query(Post).filter_by(id=id).one()
+        session.close()
     except Exception:
         app.logger.debug(format_exc())
         return abort(404)
@@ -170,15 +206,19 @@ def save_post(id):
         post.slug = slugify(post.title)
     post.text = request.form.get("content", "")
     post.updated_at = datetime.datetime.now()
-    db.session.add(post)
-    db.session.commit()
+    session = Session()
+    session.add(post)
+    session.commit()
+    session.close()
     return jsonify(success=True)
 
 @app.route("/preview/<int:id>")
 @requires_authentication
 def preview(id):
     try:
-        post = db.session.query(Post).filter_by(id=id).one()
+        session = Session()
+        post = session.query(Post).filter_by(id=id).one()
+        session.close()
     except Exception:
         app.logger.debug(format_exc())
         return abort(404)
@@ -187,7 +227,9 @@ def preview(id):
 
 @app.route("/posts.rss")
 def feed():
-    posts = db.session.query(Post).filter_by(draft=False).order_by(Post.created_at.desc()).limit(10).all()
+    session = Session()
+    posts = session.query(Post).filter_by(draft=False).order_by(Post.created_at.desc()).limit(10).all()
+    session.close()
 
     r = make_response(render_template('index.xml', posts=posts))
     r.mimetype = "application/xml"

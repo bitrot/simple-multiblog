@@ -1,5 +1,7 @@
 from werkzeug.security import generate_password_hash
 from traceback import format_exc
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 def input_with_default(prompt, default):
     x = raw_input("%s (Default %s) "%(prompt, default))
@@ -21,6 +23,8 @@ with open("settings.py", "w") as fd:
     fd.write("ANALYTICS_ID = '%s'\n"%input_with_default("Google analytics ID",""))
 
     db_uri = input_with_default("Database URI","sqlite:///simple.db")
+
+    fd.write("BACKEND = '%s'\n"%(db_uri))
 
     admin_github = input_with_default("Github Username", "")
 
