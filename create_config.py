@@ -1,4 +1,5 @@
 from werkzeug.security import generate_password_hash
+from flaskext.sqlalchemy import SQLAlchemy
 
 def input_with_default(prompt, default):
     x = raw_input("%s (Default %s) "%(prompt, default))
@@ -14,7 +15,8 @@ with open("settings.py", "w") as fd:
 #    fd.write("ADMIN_USERNAME = '%s'\n"%input_with_default("Admin username","admin"))
 #    fd.write("ADMIN_PASSWORD = '%s'\n"%generate_password_hash(input_with_default("Admin password","password")) )
     fd.write("ANALYTICS_ID = '%s'\n"%input_with_default("Google analytics ID",""))
-    fd.write('SQLALCHEMY_DATABASE_URI = "%s"\n'% input_with_default("Database URI","sqlite:///simple.db"))
+    sqlalchemy_uri = input_with_default("Database URI","sqlite:///simple.db")
+    fd.write('SQLALCHEMY_DATABASE_URI = "%s"\n'%sqlalchemy_uri)
 #    fd.write("GITHUB_USERNAME = '%s'\n"%input_with_default("Github Username", ""))
 #    fd.write("CONTACT_EMAIL = '%s'\n"%input_with_default("Contact Email", ""))
     fd.write("BLOG_TITLE = '%s'\n"%input_with_default("Blog title", ""))
@@ -22,13 +24,16 @@ with open("settings.py", "w") as fd:
     fd.write("BLOG_URL = '%s'\n"%input_with_default("Blog URL",""))
     fd.flush()
 
-user.username = input_with_default("Admin username","admin")
-user.password = generate_password_hash(input_with_default("Admin password","password"))
-user.github   = input_with_default("Github Username", "")
-user.email    = input_with_default("Contact Email", "")
+import model
+db = SQLAlchemy(sqlalchemy_uri)
 
-model.db.session.add(user)
-model.db.session.commit()
+username = input_with_default("Admin username","admin")
+password = generate_password_hash(input_with_default("Admin password","password"))
+github   = input_with_default("Github Username", "")
+email    = input_with_default("Contact Email", "")
+
+db.session.add(user)
+db.session.commit()
 
 print "Created!"
 
