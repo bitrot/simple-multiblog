@@ -69,8 +69,8 @@ def requires_authentication(f):
                 user = db.session.query(User).filter_by(username=auth.username).first()
             except Exception:
                 return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
-            
-            if not (auth.username == db.session.query(User).filter(username=auth.username).first()
+
+            if not (auth.username == user.username
                     and check_password_hash(user.password, auth.password)):
                 return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
 
