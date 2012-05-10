@@ -2,10 +2,10 @@ import hashlib
 import re
 import datetime
 import markdown
-import flask_oauth
 from werkzeug.security import check_password_hash
 from unicodedata import normalize
 from flaskext.sqlalchemy import SQLAlchemy
+from flaskext.oauth import OAuth
 from flask import render_template, request, Flask, flash, redirect, url_for, abort, jsonify, Response, make_response
 from functools import wraps
 from traceback import format_exc
