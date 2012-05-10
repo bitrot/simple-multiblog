@@ -27,7 +27,7 @@
       <file leaf-file-name="simple.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/simple.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="42" selection-start="230" selection-end="230" vertical-scroll-proportion="0.0">
+            <state line="3" column="49" selection-start="91" selection-end="91" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#684#1479#0" expanded="false" />
                 <element signature="e#1514#2063#0" expanded="false" />
@@ -50,8 +50,10 @@
       <file leaf-file-name="model.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="34" selection-start="1598" selection-end="1598" vertical-scroll-proportion="0.71705425">
-              <folding />
+            <state line="73" column="44" selection-start="2737" selection-end="2737" vertical-scroll-proportion="0.8643411">
+              <folding>
+                <element signature="e#0#93#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -59,7 +61,7 @@
       <file leaf-file-name="create_config.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/create_config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="16" selection-start="839" selection-end="839" vertical-scroll-proportion="0.0">
+            <state line="35" column="14" selection-start="1175" selection-end="1175" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -79,9 +81,9 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/.requirement" />
-        <option value="$PROJECT_DIR$/create_config.py" />
         <option value="$PROJECT_DIR$/simple.py" />
         <option value="$PROJECT_DIR$/model.py" />
+        <option value="$PROJECT_DIR$/create_config.py" />
       </list>
     </option>
   </component>
@@ -139,6 +141,16 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="BorderAuth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="simple-multiblog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="simple-multiblog" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -164,7 +176,7 @@
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
-      <module name="simple-multiblog" />
+      <module name="BorderAuth" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
@@ -178,7 +190,7 @@
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
-      <module name="simple-multiblog" />
+      <module name="BorderAuth" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
@@ -226,7 +238,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24964131" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12912482" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -319,7 +331,7 @@
     </entry>
     <entry file="file://$USER_HOME$/BorderJump/BorderAuth/BorderAuth/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="77" column="19" selection-start="3278" selection-end="3278" vertical-scroll-proportion="-2.5676742">
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
@@ -328,7 +340,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/simple.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="42" selection-start="230" selection-end="230" vertical-scroll-proportion="0.0">
+        <state line="3" column="49" selection-start="91" selection-end="91" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#684#1479#0" expanded="false" />
             <element signature="e#1514#2063#0" expanded="false" />
@@ -349,15 +361,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/create_config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="16" selection-start="839" selection-end="839" vertical-scroll-proportion="0.0">
+        <state line="35" column="14" selection-start="1175" selection-end="1175" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="34" selection-start="1598" selection-end="1598" vertical-scroll-proportion="0.71705425">
-          <folding />
+        <state line="73" column="44" selection-start="2737" selection-end="2737" vertical-scroll-proportion="0.8643411">
+          <folding>
+            <element signature="e#0#93#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
