@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash
 from unicodedata import normalize
 from flaskext.sqlalchemy import SQLAlchemy
 from flaskext.oauth import OAuth
-from flask import render_template, request, Flask, flash, redirect, url_for, abort, jsonify, Response, make_response
+from flask import render_template, request, Flask, flash, redirect, url_for, abort, jsonify, Response as response, make_response
 from functools import wraps
 from traceback import format_exc
 
@@ -46,7 +46,7 @@ def requires_authentication(f):
         auth = request.authorization
         if not auth or not (auth.username == app.config["ADMIN_USERNAME"]
                             and check_password_hash(app.config["ADMIN_PASSWORD"], auth.password)):
-            return Response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
+            return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
         return f(*args, **kwargs)
 
     return _auth_decorator
