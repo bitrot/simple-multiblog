@@ -2,7 +2,7 @@ import hashlib
 import re
 import datetime
 import markdown
-import flask-oauth
+import flask_oauth
 from werkzeug.security import check_password_hash
 from unicodedata import normalize
 from flaskext.sqlalchemy import SQLAlchemy
