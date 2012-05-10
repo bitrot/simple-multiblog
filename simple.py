@@ -1,20 +1,24 @@
-from functools import wraps
 import hashlib
-from flask import render_template, request, Flask, flash, redirect, url_for, abort, jsonify, Response, make_response
 import re
+import datetime
+import markdown
+import flask-oauth
+from werkzeug.security import check_password_hash
 from unicodedata import normalize
 from flaskext.sqlalchemy import SQLAlchemy
-import datetime
-from unicodedata import normalize
-import markdown
-from werkzeug.security import check_password_hash
+from flask import render_template, request, Flask, flash, redirect, url_for, abort, jsonify, Response, make_response
+from functools import wraps
+from traceback import format_exc
 
 app = Flask(__name__)
 app.config.from_object('settings')
 db = SQLAlchemy(app)
 
+# TODO: Add error level email handler
+
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
+# setup SQLAlchemy models
 class Post(db.Model):
     __tablename__ = "posts"
     id    = db.Column(db.Integer, primary_key=True)
@@ -29,11 +33,13 @@ class Post(db.Model):
     def render_content(self):
         return markdown.Markdown(extensions=['fenced_code'], output_format="html5", safe_mode=True).convert(self.text)
 
+# create if not exists -- SQLAlchemy
 try:
     db.create_all()
 except Exception:
-    pass
+    app.logger.error(format_exc())
 
+# we are going to replace this probably
 def requires_authentication(f):
     @wraps(f)
     def _auth_decorator(*args, **kwargs):
