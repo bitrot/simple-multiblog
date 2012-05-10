@@ -1,3 +1,9 @@
+Simple Multiblog
+================
+We really liked Simple, Obtvse, and Svbtle, but wanted multiple authors and a few other features.  The original Simple readme follows.
+- rmacy and ehaughee
+
+
 Simple
 ================
 A clone of [Obtvse](http://github.com/NateW/obtvse).
