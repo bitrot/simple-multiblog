@@ -30,8 +30,8 @@ class Post(db.Model):
     text  = db.Column(db.String(), default="")
     draft = db.Column(db.Boolean(), index=True, default=True)
     views = db.Column(db.Integer(), default=0)
-    created_at = db.Column(db.DateTime, index=True)
-    updated_at = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow(), index=True)
+    updated_at = db.Column(db.DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow())
 
     def render_content(self):
         return markdown.Markdown(extensions=['fenced_code'], output_format="html5", safe_mode=True).convert(self.text)
@@ -39,9 +39,17 @@ class Post(db.Model):
 class User(db.Model):
     __tablename__ = "users"
 
-    id = None
-    create_at = None
-    updated_at = None
+    id           = db.Column(db.Integer, primary_key=True)
+    username     = db.Column(db.String(), index=True)
+    password     = db.Column(db.String())
+    email        = db.Column(db.String())
+    github       = db.Column(db.String())
+    bio          = db.Column(db.Text())
+    created_at   = db.Column(db.DateTime, default=datetime.datetime.utcnow(), index=True)
+    updated_at   = db.Column(db.DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow())
+
+    def __unicode__(self):
+        return "%s %s" % (self.id, self.username)
 
 # create if not exists -- SQLAlchemy
 try:
@@ -54,9 +62,13 @@ def requires_authentication(f):
     @wraps(f)
     def _auth_decorator(*args, **kwargs):
         auth = request.authorization
-        if not auth or not (auth.username == app.config["ADMIN_USERNAME"]
-                            and check_password_hash(app.config["ADMIN_PASSWORD"], auth.password)):
-            return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
+        if not auth:
+            try:
+                user = db.session.query(User).filter_by(username=auth.username).first()
+            except Exception:
+                return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
+            if not check_password_hash(user.password, auth.password):
+                return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
         return f(*args, **kwargs)
 
     return _auth_decorator
