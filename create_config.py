@@ -1,5 +1,5 @@
 from werkzeug.security import generate_password_hash
-import simple
+from model import User
 
 def input_with_default(prompt, default):
     x = raw_input("%s (Default %s) "%(prompt, default))
@@ -7,7 +7,7 @@ def input_with_default(prompt, default):
         return default
     return x
 
-user = simple.db.User()
+user = User()
 
 user.username = input_with_default("Admin username","admin")
 user.password = generate_password_hash(input_with_default("Admin password","password"))
