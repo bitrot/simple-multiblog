@@ -19,10 +19,13 @@ db = SQLAlchemy(app)
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 # setup SQLAlchemy models
+# TODO: use declarative base
 class Post(db.Model):
     __tablename__ = "posts"
+
     id    = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String())
+    author = db.Column(db.Sring()) # this should be a FK
     slug  = db.Column(db.String(), unique=True)
     text  = db.Column(db.String(), default="")
     draft = db.Column(db.Boolean(), index=True, default=True)
@@ -32,6 +35,13 @@ class Post(db.Model):
 
     def render_content(self):
         return markdown.Markdown(extensions=['fenced_code'], output_format="html5", safe_mode=True).convert(self.text)
+
+class User(db.Model):
+    __tablename__ = "users"
+
+    id = None
+    create_at = None
+    updated_at = None
 
 # create if not exists -- SQLAlchemy
 try:
@@ -62,6 +72,10 @@ def index():
 
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
                                          is_more=is_more, current_page=page)
+
+@app.route("/<author>") # all posts by author
+def view_post_by_author(author):
+    pass
 
 @app.route("/<int:post_id>")
 def view_post(post_id):
@@ -185,18 +199,15 @@ def feed():
     return r
 
 def slugify(text, delim=u'-'):
-    """Generates an slightly worse ASCII-only slug."""
     result = []
     for word in _punct_re.split(text.lower()):
         word = normalize('NFKD', unicode(word)).encode('ascii', 'ignore')
         if word:
             result.append(word)
     slug = unicode(delim.join(result))
-    # This could have issues if a post is marked as draft, then live, then draft, then live and there are > 1 posts
-    # with the same slug. Oh well.
     _c = db.session.query(Post).filter_by(slug=slug).count()
     if _c > 0:
-        return "%s%s%s"%(slug, delim, _c)
+        return "%s%s%s" % (slug, delim, _c)
     else:
         return slug
 
