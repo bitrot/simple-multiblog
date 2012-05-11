@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, Sequence, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
 import datetime
 import json
 import markdown
@@ -18,8 +17,6 @@ class User(Base):
     bio          = Column(Text)
     created_at   = Column(DateTime, default=datetime.datetime.utcnow(), index = True)
     updated_at   = Column(DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow())
-
-#    relationship(Post)
 
     def __init__(self, *args, **kwargs):
         for key in kwargs:
