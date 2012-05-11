@@ -126,7 +126,7 @@ def new_post():
     post.updated_at = datetime.datetime.now()
 
     session.add(post)
-    session.commit()
+    session.commit(post)
     session.close()
 
     return redirect(url_for("edit", id=post.id))
@@ -157,7 +157,7 @@ def edit(id):
             post.draft = False
 
         session.add(post)
-        session.commit()
+        session.commit(post)
         session.close()
 
         return redirect(url_for("edit", id=id))
