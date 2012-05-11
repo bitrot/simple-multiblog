@@ -125,7 +125,7 @@ def new_post():
     post.created_at = datetime.datetime.now()
     post.updated_at = datetime.datetime.now()
 
-    session.add(post)
+    #session.add(post)
     session.commit()
     session.close()
 
