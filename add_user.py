@@ -1,4 +1,5 @@
 from werkzeug.security import generate_password_hash
+from traceback import format_exc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -23,7 +24,6 @@ Engine = create_engine(settings.BACKEND)
 Session = sessionmaker(bind=Engine)
 session = Session()
 try:
-    model.Base.metadata.create_all(Engine)
     params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'email': admin_email}
     user = model.User(**params)
     session.add(user)
