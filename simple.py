@@ -116,6 +116,7 @@ def view_post_slug(slug):
 @app.route("/new", methods=["POST", "GET"])
 @requires_authentication
 def new_post():
+    session = Session()
     post = Post()
     post.title = request.form.get("title","untitled")
     # TODO: fix this crap below
@@ -124,7 +125,6 @@ def new_post():
     post.created_at = datetime.datetime.now()
     post.updated_at = datetime.datetime.now()
 
-    session = Session()
     session.add(post)
     session.commit()
     session.close()
