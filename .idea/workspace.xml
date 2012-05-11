@@ -27,7 +27,7 @@
       <file leaf-file-name="simple.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/simple.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="230" column="0" selection-start="7630" selection-end="7630" vertical-scroll-proportion="4.4573646">
+            <state line="70" column="23" selection-start="2722" selection-end="2722" vertical-scroll-proportion="1.3565892">
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -49,7 +49,7 @@
       <file leaf-file-name="create_config.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/create_config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="26" selection-start="887" selection-end="887" vertical-scroll-proportion="0.0">
+            <state line="27" column="0" selection-start="903" selection-end="903" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -355,7 +355,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/create_config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="26" selection-start="887" selection-end="887" vertical-scroll-proportion="0.0">
+        <state line="27" column="0" selection-start="903" selection-end="903" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#0#52#0" expanded="true" />
           </folding>
@@ -364,7 +364,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/simple.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="230" column="0" selection-start="7630" selection-end="7630" vertical-scroll-proportion="4.4573646">
+        <state line="70" column="23" selection-start="2722" selection-end="2722" vertical-scroll-proportion="1.3565892">
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

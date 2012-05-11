@@ -65,12 +65,13 @@ def index():
 @app.route("/<author>") # all posts by author
 def view_post_by_author(author):
     page = request.args.get("page", 0, type=int)
+    session = Session()
     try:
-        session = Session()
         posts_master = session.query(Post).filter_by(draft=False, author=author).order_by(Post.created_at.desc())
         session.close()
     except Exception:
         app.logger.debug(format_exc())
+        session.close()
         return abort(404)
     posts_count = posts_master.count()
 
@@ -82,15 +83,13 @@ def view_post_by_author(author):
 
 @app.route("/<int:post_id>")
 def view_post(post_id):
+    session = Session()
     try:
-        session = Session()
         post = session.query(Post).filter_by(id=post_id, draft=False).one()
-        session.close()
     except Exception:
         app.logger.debug(format_exc())
         return abort(404)
 
-    session = Session()
     session.query(Post).filter_by(id=post_id).update({Post.views:Post.views+1})
     session.commit()
     session.close()
@@ -99,15 +98,14 @@ def view_post(post_id):
 
 @app.route("/<slug>")
 def view_post_slug(slug):
+    session = Session()
     try:
-        session = Session()
         post = session.query(Post).filter_by(slug=slug,draft=False).one()
-        session.close()
     except Exception:
+        session.close()
         app.logger.debug(format_exc())
         return abort(404)
 
-    session = Session()
     session.query(Post).filter_by(slug=slug).update({Post.views:Post.views+1})
     session.commit()
     session.close()
@@ -136,12 +134,12 @@ def new_post():
 @app.route("/edit/<int:id>", methods=["GET","POST"])
 @requires_authentication
 def edit(id):
+    session = Session()
     try:
-        session = Session()
         post = session.query(Post).filter_by(id=id).one()
-        session.close()
     except Exception:
         app.logger.debug(format_exc())
+        session.close()
         return abort(404)
 
     if request.method == "GET":
@@ -158,7 +156,6 @@ def edit(id):
         else:
             post.draft = False
 
-        session = Session()
         session.add(post)
         session.commit()
         session.close()
@@ -168,15 +165,14 @@ def edit(id):
 @app.route("/delete/<int:id>", methods=["GET","POST"])
 @requires_authentication
 def delete(id):
+    session = Session()
     try:
-        session = Session()
         post = session.query(Post).filter_by(id=id).one()
-        session.close()
     except Exception:
         app.logger.debug(format_exc())
+        session.close()
         flash("Error deleting post ID %s"%id, category="error")
     else:
-        session = Session()
         session.delete(post)
         session.commit()
         session.close()
@@ -197,19 +193,18 @@ def admin():
 @app.route("/admin/save/<int:id>", methods=["POST"])
 @requires_authentication
 def save_post(id):
+    session = Session()
     try:
-        session = Session()
         post = session.query(Post).filter_by(id=id).one()
-        session.close()
     except Exception:
         app.logger.debug(format_exc())
+        session.close()
         return abort(404)
     if post.title != request.form.get("title", ""):
         post.title = request.form.get("title","")
         post.slug = slugify(post.title)
     post.text = request.form.get("content", "")
     post.updated_at = datetime.datetime.now()
-    session = Session()
     session.add(post)
     session.commit()
     session.close()
