@@ -3,3 +3,4 @@
 *.pyc
 *.db
 /settings.py
+build/*
