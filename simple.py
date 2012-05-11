@@ -126,7 +126,7 @@ def new_post():
     post.updated_at = datetime.datetime.now()
 
     session.add(post)
-    session.commit(post)
+    session.commit()
     session.close()
 
     return redirect(url_for("edit", id=post.id))
@@ -143,6 +143,7 @@ def edit(id):
         return abort(404)
 
     if request.method == "GET":
+        session.close()
         return render_template("edit.html", post=post)
     else:
         if post.title != request.form.get("post_title", ""):
@@ -156,8 +157,7 @@ def edit(id):
         else:
             post.draft = False
 
-        session.add(post)
-        session.commit(post)
+        session.commit()
         session.close()
 
         return redirect(url_for("edit", id=id))
