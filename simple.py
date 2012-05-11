@@ -127,9 +127,8 @@ def new_post():
     id = post.id
 
     session.commit()
-    session.close()
 
-    return redirect(url_for("edit", id=id))
+    return redirect(url_for("edit", id=post.id))
 
 @app.route("/edit/<int:id>", methods=["GET","POST"])
 @requires_authentication
