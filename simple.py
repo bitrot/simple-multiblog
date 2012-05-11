@@ -112,7 +112,7 @@ def edit(id):
         return abort(404)
 
     if request.method == "GET":
-        return render_template("edit2.html", post=post)
+        return render_template("edit.html", post=post)
     else:
         if post.title != request.form.get("post_title", ""):
             post.title = request.form.get("post_title","")
