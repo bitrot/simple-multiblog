@@ -124,8 +124,8 @@ def new_post():
     post.slug = slugify(post.title)
     post.created_at = datetime.datetime.now()
     post.updated_at = datetime.datetime.now()
-    id = post.id
 
+    session.add(post)
     session.commit()
 
     return redirect(url_for("edit", id=post.id))
