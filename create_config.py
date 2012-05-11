@@ -16,19 +16,19 @@ with open("settings.py", "w") as fd:
 
     fd.write("POSTS_PER_PAGE = %s\n"%input_with_default("Posts per page", 5))
 
-    admin_username = input_with_default("Admin username","admin")
-
-    admin_password = generate_password_hash(input_with_default("Admin password","password"))
-
     fd.write("ANALYTICS_ID = '%s'\n"%input_with_default("Google analytics ID",""))
 
     db_uri = input_with_default("Database URI","sqlite:///simple.db")
 
     fd.write("BACKEND = '%s'\n"%(db_uri))
 
-    admin_github = input_with_default("Github Username", "")
+    admin_username = input_with_default("Admin username","admin")
+
+    admin_password = generate_password_hash(input_with_default("Admin password","password"))
 
     admin_email = input_with_default("Contact Email", "")
+
+    admin_github = input_with_default("Github Username", "")
 
     fd.write("BLOG_TITLE = '%s'\n"%input_with_default("Blog title", ""))
 
