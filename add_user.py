@@ -1,3 +1,4 @@
+from sys import exit
 from werkzeug.security import generate_password_hash
 from traceback import format_exc
 from sqlalchemy import create_engine
@@ -6,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 try:
     import settings
 except ImportError:
-    print "You need to create the settings file before you can add more users!"
+    exit("You need to create the settings file before you can add more users!")
 
 def input_with_default(prompt, default):
     x = raw_input("%s (Default %s) "%(prompt, default))

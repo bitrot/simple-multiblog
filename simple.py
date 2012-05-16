@@ -1,6 +1,7 @@
 import re
 import datetime
 import markdown
+from sys import exit
 from werkzeug.security import check_password_hash
 from unicodedata import normalize
 from model import Post, User
@@ -11,13 +12,14 @@ from functools import wraps
 from traceback import format_exc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 try:
     from settings import BACKEND
     Engine = create_engine(BACKEND)
     Session = sessionmaker(bind=Engine)
     session = Session()
 except ImportError:
-    print "You need to create the settings file before you can run simple-multiblog!"
+    exit("You need to create the settings file before you can run simple-multiblog!")
 
 app = Flask(__name__)
 app.debug = True
