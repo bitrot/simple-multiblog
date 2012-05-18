@@ -4,7 +4,7 @@ import markdown
 from sys import exit
 from werkzeug.security import check_password_hash
 from unicodedata import normalize
-from model import Post, User
+from model import Post, Author
 from flaskext.oauth import OAuth
 from flaskext.sqlalchemy import SQLAlchemy
 from flask import render_template, request, Flask, flash, redirect, url_for, abort, jsonify, Response as response, make_response
@@ -37,12 +37,12 @@ def requires_authentication(f):
             return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
         else:
             try:
-                user = session.query(User).filter_by(username=auth.username).first()
+                author = session.query(Author).filter_by(username=auth.username).first()
             except Exception:
                 app.logger.debug(format_exc())
                 return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
 
-            if not check_password_hash(user.password, auth.password):
+            if not check_password_hash(author.password, auth.password):
                 return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
 
         return f(*args, **kwargs)
@@ -59,7 +59,7 @@ def index():
     is_more = posts_count > ((page*app.config["POSTS_PER_PAGE"]) + app.config["POSTS_PER_PAGE"])
 
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
-                                         is_more=is_more, current_page=page)
+                                     is_more=is_more, current_page=page)
 
 @app.route("/<int:post_id>")
 def view_post(post_id):
@@ -74,15 +74,19 @@ def view_post(post_id):
 
     return render_template("view.html", post=post)
 
-@app.route("/<slug>")
-def view_post_slug(slug):
+@app.route("/<author>")
+def get_author_posts(author):
+    pass
+
+@app.route("/<author>/<slug>")
+def view_post_slug(author, slug):
     try:
-        post = session.query(Post).filter_by(slug=slug,draft=False).one()
+        post = session.query(Post).filter_by(author=author, slug=slug, draft=False).one()
     except Exception:
         app.logger.debug(format_exc())
         return abort(404)
 
-    session.query(Post).filter_by(slug=slug).update({Post.views:Post.views+1})
+    session.query(Post).filter_by(author=author, slug=slug).update({Post.views:Post.views+1})
     session.commit()
 
     pid = request.args.get("pid", "0")
@@ -94,7 +98,7 @@ def new_post():
     post = Post()
     post.title = request.form.get("title","untitled")
     # TODO: fix this crap below
-    post.author = 1
+    post.author_id = 1
     post.slug = slugify(post.title)
     post.created_at = datetime.datetime.now()
     post.updated_at = datetime.datetime.now()
@@ -182,12 +186,23 @@ def preview(id):
     return render_template("post_preview.html", post=post)
 
 @app.route("/posts.rss")
-def feed():
-    posts = session.query(Post).filter_by(draft=False).order_by(Post.created_at.desc()).limit(10).all()
+def feed(author=None):
+    if author:
+        try:
+            posts = session.query(Post).filter_by(draft=False, author=author).order_by(Post.created_at.desc()).limit(10).all()
+        except Exception:
+            app.logger.debug(format_exc())
+            return abort(404)
+    else:
+        posts = session.query(Post).filter_by(draft=False).order_by(Post.created_at.desc()).limit(10).all()
 
     r = make_response(render_template('index.xml', posts=posts))
     r.mimetype = "application/xml"
     return r
+
+@app.route("/<author>/posts.rss")
+def author_feed(author):
+    return feed(author=author)
 
 def slugify(text, delim=u'-'):
     result = []

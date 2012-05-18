@@ -26,7 +26,7 @@ Session = sessionmaker(bind=Engine)
 session = Session()
 try:
     params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'email': admin_email}
-    user = model.User(**params)
+    user = model.Author(**params)
     session.add(user)
     session.commit()
 except:

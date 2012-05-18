@@ -1,22 +1,24 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, Sequence, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 import datetime
 import json
 import markdown
 
 Base = declarative_base()
 
-class User(Base):
-    __tablename__ = "users"
+class Author(Base):
+    __tablename__ = "authors"
 
-    id           = Column(Integer(11), Sequence('user_id_sequence'), primary_key = True, nullable = False)
-    username     = Column(String(255), index = True)
-    password     = Column(String(255))
-    email        = Column(String(255))
+    id           = Column(Integer(11), Sequence('author_id_sequence'), primary_key = True, nullable = False)
+    username     = Column(String(255), unique = True, index = True, nullable = False)
+    password     = Column(String(255), nullable = False)
+    email        = Column(String(255), nullable = False)
     github       = Column(String(255))
     bio          = Column(Text)
-    created_at   = Column(DateTime, default=datetime.datetime.utcnow(), index = True)
-    updated_at   = Column(DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow())
+    post         = relationship('Post', backref='author')
+    created_at   = Column(DateTime, default=datetime.datetime.utcnow(), index = True, nullable = False)
+    updated_at   = Column(DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow(), nullable = False)
 
     def __init__(self, *args, **kwargs):
         for key in kwargs:
@@ -40,14 +42,14 @@ class Post(Base):
     __tablename__ = "posts"
 
     id           = Column(Integer(11), Sequence('post_id_sequence'), primary_key = True, nullable = False)
-    title        = Column(String(255))
-    author       = Column(ForeignKey(User.id), nullable = False)
+    title        = Column(String(255), nullable = False)
+    author_id    = Column(ForeignKey(Author.id), nullable = False)
     slug         = Column(String(255), unique = True)
     text         = Column(String(255), default = "")
-    draft        = Column(Boolean, index = True, default = True)
+    draft        = Column(Boolean, index = True)
     views        = Column(Integer(11), default = 0)
-    created_at   = Column(DateTime, default=datetime.datetime.utcnow(), index = True)
-    updated_at   = Column(DateTime, default=datetime.datetime.utcnow(), onupdate = datetime.datetime.utcnow())
+    created_at   = Column(DateTime, default=datetime.datetime.utcnow(), index = True, nullable = False)
+    updated_at   = Column(DateTime, default=datetime.datetime.utcnow(), onupdate = datetime.datetime.utcnow(), nullable = False)
 
     def __init__(Self, *args, **kwargs):
         for key in kwargs:
