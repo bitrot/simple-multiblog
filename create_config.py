@@ -3,6 +3,8 @@ from traceback import format_exc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+unapproved_user_names = ['admin', 'Admin', 'new', 'New', 'edit', 'Edit', 'delete', 'Delete', 'preview', 'Preview']
+
 def input_with_default(prompt, default):
     x = raw_input("%s (Default %s) "%(prompt, default))
     if not x:
@@ -22,7 +24,11 @@ with open("settings.py", "w") as fd:
 
     fd.write("BACKEND = '%s'\n"%(db_uri))
 
-    admin_username = input_with_default("Admin username","admin")
+    admin_username = input_with_default("Admin username","webguy")
+
+    while admin_username in unapproved_user_names:
+        print "That username is disallowed!"
+        admin_username = input_with_default("Admin username", "webguy")
 
     admin_password = generate_password_hash(input_with_default("Admin password","password"))
 

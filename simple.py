@@ -25,8 +25,6 @@ app = Flask(__name__)
 app.debug = True
 app.config.from_object('settings')
 
-# TODO: Add error level email handler
-
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 def requires_authentication(f):
@@ -61,12 +59,27 @@ def index():
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
                                      is_more=is_more, current_page=page)
 
-@app.route("/<int:post_id>")
-def view_post(post_id):
+@app.route("/<author>")
+def get_author_posts(author):
+    page = request.args.get("page", 0, type=int)
+    posts_master = session.query(Post).join(Author).filter(Author.username==author, Post.draft==False).order_by(Post.created_at.desc())
+    posts_count = posts_master.count()
+
+    if not (posts_count > 0):
+        return abort(404)
+
+    posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()
+    is_more = posts_count > ((page*app.config["POSTS_PER_PAGE"]) + app.config["POSTS_PER_PAGE"])
+
+    return render_template("index.html", posts=posts, now=datetime.datetime.now(),
+                                     is_more=is_more, current_page=page)
+
+@app.route("/<author>/<int:post_id>")
+def get_author_post(author, post_id):
     try:
-        post = session.query(Post).filter_by(id=post_id, draft=False).one()
+        post = session.query(Post).join(Author).filter(Author.username==author, Post.id==post_id, Post.draft==False).one()
     except Exception:
-        app.logger.debug(format_exc())
+        app.logger.debug(format_exc)
         return abort(404)
 
     if post:
@@ -76,20 +89,8 @@ def view_post(post_id):
 
     return render_template("view.html", post=post)
 
-@app.route("/<author>")
-def get_author_posts(author):
-    page = request.args.get("page", 0, type=int)
-    posts_master = session.query(Post).join(Author).filter(Author.username==author, Post.draft==False).order_by(Post.created_at.desc())
-    posts_count = posts_master.count()
-
-    posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()
-    is_more = posts_count > ((page*app.config["POSTS_PER_PAGE"]) + app.config["POSTS_PER_PAGE"])
-
-    return render_template("index.html", posts=posts, now=datetime.datetime.now(),
-                                     is_more=is_more, current_page=page)
-
 @app.route("/<author>/<slug>")
-def view_post_slug(author, slug):
+def get_author_slug(author, slug):
     try:
         post = session.query(Post).join(Author).filter(Author.username==author, Post.slug==slug, Post.draft==False).one()
     except Exception:
@@ -213,7 +214,7 @@ def feed(author=None):
     return r
 
 @app.route("/<author>/posts.rss")
-def author_feed(author):
+def get_author_feed(author):
     return feed(author=author)
 
 def slugify(text, delim=u'-'):

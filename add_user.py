@@ -9,13 +9,20 @@ try:
 except ImportError:
     exit("You need to create the settings file before you can add more users!")
 
+unapproved_user_names = ['admin', 'Admin', 'new', 'New', 'edit', 'Edit', 'delete', 'Delete', 'preview', 'Preview']
+
 def input_with_default(prompt, default):
     x = raw_input("%s (Default %s) "%(prompt, default))
     if not x:
         return default
     return x
 
-admin_username = input_with_default("Admin username","admin")
+admin_username = input_with_default("Admin username","webguy")
+
+while admin_username in unapproved_user_names:
+    print "That username is disallowed!"
+    admin_username = input_with_default("Admin username", "webguy")
+
 admin_password = generate_password_hash(input_with_default("Admin password","password"))
 admin_email = input_with_default("Contact Email", "")
 admin_github = input_with_default("Github Username", "")

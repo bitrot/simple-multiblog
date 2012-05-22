@@ -7,7 +7,7 @@
     {% for post in posts %}
         <section id="post-{{ post.id }}">
             <div class="post contain">
-                <h1><a href="{{ url_for('view_post_slug', author=post.author.username, slug=post.slug, pid=current_page) }}">{{ post.title }}</a></h1>
+                <h1><a href="{{ url_for('get_author_slug', author=post.author.username, slug=post.slug, pid=current_page) }}">{{ post.title }}</a></h1>
                 {{ post.render_content()|safe }}
             {% if is_admin %}
                 <ul class="actions">
