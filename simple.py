@@ -76,17 +76,25 @@ def view_post(post_id):
 
 @app.route("/<author>")
 def get_author_posts(author):
-    pass
+    page = request.args.get("page", 0, type=int)
+    posts_master = session.query(Post).filter_by(Post.author.username==author, draft=False).order_by(Post.created_at.desc())
+    posts_count = posts_master.count()
+
+    posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()
+    is_more = posts_count > ((page*app.config["POSTS_PER_PAGE"]) + app.config["POSTS_PER_PAGE"])
+
+    return render_template("index.html", posts=posts, now=datetime.datetime.now(),
+                                     is_more=is_more, current_page=page)
 
 @app.route("/<author>/<slug>")
 def view_post_slug(author, slug):
     try:
-        post = session.query(Post).join(Author).filter_by(Author.username==author, slug=slug, draft=False).one()
+        post = session.query(Post).filter_by(Post.author.username==author, slug=slug, draft=False).one()
     except Exception:
         app.logger.debug(format_exc())
         return abort(404)
 
-    session.query(Post).join(Author).filter_by(username=author, slug=slug).update({Post.views:Post.views+1})
+    session.query(Post).filter_by(Post.author.username==author, slug=slug).update({Post.views:Post.views+1})
     session.commit()
 
     pid = request.args.get("pid", "0")
@@ -189,7 +197,7 @@ def preview(id):
 def feed(author=None):
     if author:
         try:
-            posts = session.query(Post).join(Author, Author.username==author).filter_by(draft=False).order_by(Post.created_at.desc()).limit(10).all()
+            posts = session.query(Post).filter_by(Post.author.username==author, draft=False).order_by(Post.created_at.desc()).limit(10).all()
         except Exception:
             app.logger.debug(format_exc())
             return abort(404)
