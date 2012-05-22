@@ -26,11 +26,14 @@ Session = sessionmaker(bind=Engine)
 session = Session()
 try:
     params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'email': admin_email}
-    user = model.Author(**params)
-    session.add(user)
-    session.commit()
+    try:
+        user = model.Author(**params)
+        session.add(user)
+        session.commit()
+    except IntegrityError as e:
+        exit('That user already seems to exist!')
 except:
-    print format_exc()
+    exit(format_exc())
 finally:
     session.close()
 
