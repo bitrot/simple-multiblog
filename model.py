@@ -51,7 +51,7 @@ class Post(Base):
     created_at   = Column(DateTime, default=datetime.datetime.utcnow(), index = True, nullable = False)
     updated_at   = Column(DateTime, default=datetime.datetime.utcnow(), onupdate = datetime.datetime.utcnow(), nullable = False)
 
-    def __init__(Self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         for key in kwargs:
             setattr(self, key, kwargs[key])
 
