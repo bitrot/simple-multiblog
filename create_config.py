@@ -3,7 +3,7 @@ from traceback import format_exc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-unapproved_user_names = ['admin', 'Admin', 'new', 'New', 'edit', 'Edit', 'delete', 'Delete', 'preview', 'Preview']
+unapproved_user_names = ['admin', 'Admin', 'new', 'New', 'edit', 'Edit', 'delete', 'Delete', 'preview', 'Preview', 'save', 'Save']
 
 def input_with_default(prompt, default):
     x = raw_input("%s (Default %s) "%(prompt, default))
@@ -35,10 +35,6 @@ with open("settings.py", "w") as fd:
     admin_email = input_with_default("Contact Email", "")
 
     admin_github = input_with_default("Github Username", "")
-
-    fd.write("BLOG_TITLE = '%s'\n"%input_with_default("Blog title", ""))
-
-    fd.write("BLOG_TAGLINE = '%s'\n"%input_with_default("Blog tagline", ""))
 
     fd.write("BLOG_URL = '%s'\n"%input_with_default("Blog URL",""))
 

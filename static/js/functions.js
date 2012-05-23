@@ -45,7 +45,7 @@ function issueSaveAjax(id, redirect){
     var pcontent = $("#post_content").val();
     var req = $.ajax({
         type: "POST",
-        url:"/admin/save/"+id,
+        url:"/save/"+id,
         data: {title: ptitle,
                content: pcontent}
     });

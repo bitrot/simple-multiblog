@@ -21,9 +21,19 @@ try:
 except ImportError:
     exit("You need to create the settings file before you can run simple-multiblog!")
 
+
+#$$$$$$$#
+# FLASK #
+#$$$$$$$#
+
 app = Flask(__name__)
 app.debug = True
 app.config.from_object('settings')
+
+
+#%%%%%%%#
+# UTILS #
+#%%%%%%%#
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
@@ -47,7 +57,25 @@ def requires_authentication(f):
 
     return _auth_decorator
 
-@app.route("/")
+def slugify(text, delim=u'-'):
+    result = []
+    for word in _punct_re.split(text.lower()):
+        word = normalize('NFKD', unicode(word)).encode('ascii', 'ignore')
+        if word:
+            result.append(word)
+    slug = unicode(delim.join(result))
+    _c = session.query(Post).filter_by(slug=slug).count()
+    if _c > 0:
+        return "%s%s%s" % (slug, delim, _c)
+    else:
+        return slug
+
+
+#%%%%%%%%#
+# ROUTES #
+#%%%%%%%%#
+
+@app.route("/", methods=["GET"])
 def index():
     page = request.args.get("page", 0, type=int)
     posts_master = session.query(Post).filter_by(draft=False).order_by(Post.created_at.desc())
@@ -59,7 +87,22 @@ def index():
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
                                      is_more=is_more, current_page=page)
 
-@app.route("/<author>")
+@app.route("/posts.rss", methods=["GET"])
+def feed(author=None):
+    if author:
+        try:
+            posts = session.query(Post).join(Author).filter(Author.username==author, Post.draft==False).order_by(Post.created_at.desc()).limit(10).all()
+        except Exception:
+            app.logger.debug(format_exc())
+            return abort(404)
+    else:
+        posts = session.query(Post).filter_by(draft=False).order_by(Post.created_at.desc()).limit(10).all()
+
+    r = make_response(render_template('index.xml', posts=posts))
+    r.mimetype = "application/xml"
+    return r
+
+@app.route("/<author>", methods=["GET"])
 def get_author_posts(author):
     page = request.args.get("page", 0, type=int)
     posts_master = session.query(Post).join(Author).filter(Author.username==author, Post.draft==False).order_by(Post.created_at.desc())
@@ -74,7 +117,7 @@ def get_author_posts(author):
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
                                      is_more=is_more, current_page=page)
 
-@app.route("/<author>/<int:post_id>")
+@app.route("/<author>/<int:post_id>", methods=["GET"])
 def get_author_post(author, post_id):
     try:
         post = session.query(Post).join(Author).filter(Author.username==author, Post.id==post_id, Post.draft==False).one()
@@ -89,7 +132,7 @@ def get_author_post(author, post_id):
 
     return render_template("view.html", post=post)
 
-@app.route("/<author>/<slug>")
+@app.route("/<author>/<slug>", methods=["GET"])
 def get_author_slug(author, slug):
     try:
         post = session.query(Post).join(Author).filter(Author.username==author, Post.slug==slug, Post.draft==False).one()
@@ -104,6 +147,10 @@ def get_author_slug(author, slug):
 
     pid = request.args.get("pid", "0")
     return render_template("view.html", post=post, pid=pid)
+
+@app.route("/<author>/posts.rss", methods=["GET"])
+def get_author_feed(author):
+    return feed(author=author)
 
 @app.route("/new", methods=["POST", "GET"])
 @requires_authentication
@@ -120,6 +167,17 @@ def new_post():
     session.commit()
 
     return redirect(url_for("edit", id=post.id))
+
+@app.route("/preview/<int:id>", methods=["GET"])
+@requires_authentication
+def preview(id):
+    try:
+        post = session.query(Post).filter_by(id=id).one()
+    except Exception:
+        app.logger.debug(format_exc())
+        return abort(404)
+
+    return render_template("post_preview.html", post=post)
 
 @app.route("/edit/<int:id>", methods=["GET","POST"])
 @requires_authentication
@@ -148,6 +206,22 @@ def edit(id):
 
         return redirect(url_for("edit", id=id))
 
+@app.route("/save/<int:id>", methods=["POST"])
+@requires_authentication
+def save_post(id):
+    try:
+        post = session.query(Post).filter_by(id=id).one()
+    except Exception:
+        app.logger.debug(format_exc())
+        return abort(404)
+    if post.title != request.form.get("title", ""):
+        post.title = request.form.get("title","")
+        post.slug = slugify(post.title)
+    post.text = request.form.get("content", "")
+    post.updated_at = datetime.datetime.now()
+    session.commit()
+    return jsonify(success=True)
+
 @app.route("/delete/<int:id>", methods=["GET","POST"])
 @requires_authentication
 def delete(id):
@@ -171,64 +245,8 @@ def admin():
                                           .order_by(Post.created_at.desc()).all()
     return render_template("admin.html", drafts=drafts, posts=posts)
 
-@app.route("/admin/save/<int:id>", methods=["POST"])
-@requires_authentication
-def save_post(id):
-    try:
-        post = session.query(Post).filter_by(id=id).one()
-    except Exception:
-        app.logger.debug(format_exc())
-        return abort(404)
-    if post.title != request.form.get("title", ""):
-        post.title = request.form.get("title","")
-        post.slug = slugify(post.title)
-    post.text = request.form.get("content", "")
-    post.updated_at = datetime.datetime.now()
-    session.commit()
-    return jsonify(success=True)
 
-@app.route("/preview/<int:id>")
-@requires_authentication
-def preview(id):
-    try:
-        post = session.query(Post).filter_by(id=id).one()
-    except Exception:
-        app.logger.debug(format_exc())
-        return abort(404)
 
-    return render_template("post_preview.html", post=post)
-
-@app.route("/posts.rss")
-def feed(author=None):
-    if author:
-        try:
-            posts = session.query(Post).join(Author).filter(Author.username==author, Post.draft==False).order_by(Post.created_at.desc()).limit(10).all()
-        except Exception:
-            app.logger.debug(format_exc())
-            return abort(404)
-    else:
-        posts = session.query(Post).filter_by(draft=False).order_by(Post.created_at.desc()).limit(10).all()
-
-    r = make_response(render_template('index.xml', posts=posts))
-    r.mimetype = "application/xml"
-    return r
-
-@app.route("/<author>/posts.rss")
-def get_author_feed(author):
-    return feed(author=author)
-
-def slugify(text, delim=u'-'):
-    result = []
-    for word in _punct_re.split(text.lower()):
-        word = normalize('NFKD', unicode(word)).encode('ascii', 'ignore')
-        if word:
-            result.append(word)
-    slug = unicode(delim.join(result))
-    _c = session.query(Post).filter_by(slug=slug).count()
-    if _c > 0:
-        return "%s%s%s" % (slug, delim, _c)
-    else:
-        return slug
 
 if __name__ == "__main__":
     app.run()

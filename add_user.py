@@ -9,7 +9,7 @@ try:
 except ImportError:
     exit("You need to create the settings file before you can add more users!")
 
-unapproved_user_names = ['admin', 'Admin', 'new', 'New', 'edit', 'Edit', 'delete', 'Delete', 'preview', 'Preview']
+unapproved_user_names = ['admin', 'Admin', 'new', 'New', 'edit', 'Edit', 'delete', 'Delete', 'preview', 'Preview', 'save', 'Save']
 
 def input_with_default(prompt, default):
     x = raw_input("%s (Default %s) "%(prompt, default))
