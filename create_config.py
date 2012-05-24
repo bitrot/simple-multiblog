@@ -49,6 +49,8 @@ with open("settings.py", "w") as fd:
 
     fd.write("BLOG_URL = '%s'\n"%input_with_default("Blog URL",""))
 
+    fd.write("SECRET_KEY = '%s'\n"%input_with_default("Secret Key", "ChangeMePlease"))
+
     fd.flush()
 
 import model
