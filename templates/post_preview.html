@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en-US">
     <head>
-        <title>{% block title %}{% endblock %}</title>
+        <title>{% block title %}{{ post.title }}{% endblock %}</title>
         <link href="{{ url_for('static', filename='css/_normalize.css') }}" type="text/css" media="screen" rel="stylesheet">
         <link href="{{ url_for('static', filename='css/posts.css') }}" type="text/css" media="screen" rel="stylesheet">
         <meta name="author" content="{{ config.AUTHOR }}">

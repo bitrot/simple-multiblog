@@ -1,6 +1,7 @@
 import re
 import datetime
 import markdown
+import urllib
 from sys import exit
 from werkzeug.security import check_password_hash
 from unicodedata import normalize
@@ -27,7 +28,7 @@ except ImportError:
 #$$$$$$$#
 
 app = Flask(__name__)
-app.debug = True
+app.debug = False
 app.config.from_object('settings')
 
 
@@ -70,6 +71,10 @@ def slugify(text, delim=u'-'):
     else:
         return slug
 
+def get_gravatar_url(url, size=80):
+    default = 'retro'
+    url += urllib.urlencode({'d':default, 's':str(size)})
+    return url
 
 #%%%%%%%%#
 # ROUTES #
@@ -84,8 +89,15 @@ def index():
     posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()
     is_more = posts_count > ((page*app.config["POSTS_PER_PAGE"]) + app.config["POSTS_PER_PAGE"])
 
+    _authors = session.query(Author).all()
+    authors = []
+
+    for author in _authors:
+        author.gravatar_url = get_gravatar_url(author.gravatar)
+        authors.append(author)
+
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
-                                     is_more=is_more, current_page=page)
+                                     is_more=is_more, current_page=page, authors=authors)
 
 @app.route("/posts.rss", methods=["GET"])
 def feed(author=None):
@@ -114,8 +126,11 @@ def get_author_posts(author):
     posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()
     is_more = posts_count > ((page*app.config["POSTS_PER_PAGE"]) + app.config["POSTS_PER_PAGE"])
 
+    author = session.query(Author).filter_by(username=author).one()
+    author.gravatar_url = get_gravatar_url(author.gravatar)
+
     return render_template("index.html", posts=posts, now=datetime.datetime.now(),
-                                     is_more=is_more, current_page=page)
+                                     is_more=is_more, current_page=page, author=author)
 
 @app.route("/<author>/<int:post_id>", methods=["GET"])
 def get_author_post(author, post_id):
@@ -130,7 +145,10 @@ def get_author_post(author, post_id):
 
     session.commit()
 
-    return render_template("view.html", post=post)
+    author = post.author
+    author.gravatar_url = get_gravatar_url(author.gravatar)
+
+    return render_template("view.html", post=post, author=author)
 
 @app.route("/<author>/<slug>", methods=["GET"])
 def get_author_slug(author, slug):
@@ -145,8 +163,11 @@ def get_author_slug(author, slug):
 
     session.commit()
 
+    author = post.author
+    author.gravatar_url = get_gravatar_url(author.gravatar)
+
     pid = request.args.get("pid", "0")
-    return render_template("view.html", post=post, pid=pid)
+    return render_template("view.html", post=post, pid=pid, author=author)
 
 @app.route("/<author>/posts.rss", methods=["GET"])
 def get_author_feed(author):

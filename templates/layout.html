@@ -4,8 +4,12 @@
     <title>{% block title %}{% endblock %}</title>
     <link href="{{ url_for('static', filename='css/_normalize.css') }}" type="text/css" media="screen" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/posts.css') }}" type="text/css" media="screen" rel="stylesheet">
-    <meta name="author" content="{{ config.AUTHOR }}">
-    <link href="{{ url_for('feed') }}" rel="alternate" title="RSS" type="application/rss+xml" />
+    <link href="{{ url_for('static', filename='css/s-mb.css') }}" type="text/css" media="screen" rel="stylesheet">
+    {% if author %}
+        <link href="{{ url_for('get_author_feed', author=author.username) }}" rel="alternate" title="RSS" type="application/rss+xml" />
+    {% elif authors %}
+        <link href="{{ url_for('feed') }}" rel="alternate" title="RSS" type="application/rss+xml" />
+    {% endif %}
     <link href='http://fonts.googleapis.com/css?family=Lato:300,900' rel='stylesheet' type='text/css' />
     <link href="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.css" rel="stylesheet" type="text/css">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js" type="text/javascript"></script>
@@ -13,17 +17,39 @@
 
 <body onload="prettyPrint()">
 <header>
-    <h1><a href="{{ url_for('index') }}">{{ config.BLOG_TITLE }}</a></h1>
-    <span>{{ config.BLOG_TAGLINE }}</span>
+    <h1 class="title">
+        <a href="{{ url_for('index') }}">
+            {% if author %}
+                {{ author.username }}
+            {% else %}
+                {{ config.BLOG_NAME }}
+            {% endif %}
+        </a>
+    </h1>
     <ul>
-        {% if config.GITHUB_USERNAME %}
-            <li><a href="https://github.com/{{ config.GITHUB_USERNAME }}/">Github</a></li>
+        {% if author %}
+            {% if author.gravatar_url %}
+                <li class="gravatar"><a href="{{ url_for('get_author_posts', author=author.username) }}"><img src="{{ author.gravatar_url }}" /></a></li>
+                <br />
+            {% endif %}
+            {% if author.github %}
+                <li><a href="https://github.com/{{ author.github }}/">Github</a></li>
+            {% endif %}
+            {% if author.email %}
+                <li><a href="mailto:{{ author.email }}?subject:Howdy">Email me</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('get_author_feed', author=author.username) }}">Feed</a></li>
+            {% block sidebar %}{% endblock %}
+        {% elif authors %}
+            {% for author in authors %}
+                {% if author.gravatar %}
+                    <li class="gravatar"><a href="{{ url_for('get_author_posts', author=author.username) }}"><img src="{{ author.gravatar_url }}" /></a></li>
+                {% endif %}
+                {% if author.github %}
+                    <li class="github-authors"><a href="https://github.com/{{ author.github }}/">{{ author.github }}</a></li>
+                {% endif %}
+            {% endfor %}
         {% endif %}
-        {% if config.CONTACT_EMAIL %}
-            <li><a href="mailto:{{ config.CONTACT_EMAIL }}?subject:Howdy">Email me</a></li>
-        {% endif %}
-        <li><a href="{{ url_for('feed') }}">Feed</a></li>
-        {% block sidebar %}{% endblock %}
     </ul>
     <span class="powered-by">
       Backed by <a href="http://github.com/bitrot/simple-multiblog">Simple-Multiblog</a><br />
@@ -37,9 +63,9 @@
 <div id="container">
     <time>
         {% if post %}
-            Posted {{ post.created_at.strftime('%B %d, %Y') }}
+            Posted {{ post.created_at.strftime('%B %d, %Y') }} by {{ post.author.username }}
             {% if post.created_at.strftime('%B %d, %Y') != post.updated_at.strftime('%B %d, %Y') %}
-                , Updated {{ post.updated_at.strftime('%B %d, %Y') }}
+                - Updated {{ post.updated_at.strftime('%B %d, %Y') }}
             {% endif %}
         {% else %}
             {{ now.strftime('%B %d, %Y') }}

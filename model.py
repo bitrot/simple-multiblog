@@ -14,6 +14,7 @@ class Author(Base):
     username     = Column(String(255), unique = True, index = True, nullable = False)
     password     = Column(String(255), nullable = False)
     email        = Column(String(255), nullable = False)
+    gravatar     = Column(String(255), nullable = False)
     github       = Column(String(255))
     bio          = Column(Text)
     post         = relationship('Post', backref='author')

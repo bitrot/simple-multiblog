@@ -2,6 +2,7 @@ from werkzeug.security import generate_password_hash
 from traceback import format_exc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import hashlib
 
 unapproved_user_names = ['admin', 'Admin', 'new', 'New', 'edit', 'Edit', 'delete', 'Delete', 'preview', 'Preview', 'save', 'Save']
 
@@ -10,6 +11,10 @@ def input_with_default(prompt, default):
     if not x:
         return default
     return x
+
+def make_gravatar(email):
+    url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
+    return url
 
 print "Generating a Simple config file. Please answer some questions:"
 
@@ -34,7 +39,11 @@ with open("settings.py", "w") as fd:
 
     admin_email = input_with_default("Contact Email", "")
 
+    admin_gravatar = make_gravatar(admin_email)
+
     admin_github = input_with_default("Github Username", "")
+
+    fd.write("BLOG_NAME = '%s'\n"%input_with_default("Blog Name","Simple-MultiBlog"))
 
     fd.write("BLOG_URL = '%s'\n"%input_with_default("Blog URL",""))
 
@@ -46,7 +55,7 @@ Session = sessionmaker(bind=Engine)
 session = Session()
 try:
     model.Base.metadata.create_all(Engine)
-    params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'email': admin_email}
+    params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'email': admin_email, 'gravatar': admin_gravatar}
     user = model.Author(**params)
     session.add(user)
     session.commit()

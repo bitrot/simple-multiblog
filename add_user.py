@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash
 from traceback import format_exc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import hashlib
 
 try:
     import settings
@@ -17,6 +18,10 @@ def input_with_default(prompt, default):
         return default
     return x
 
+def make_gravatar(email):
+    url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
+    return url
+
 admin_username = input_with_default("Admin username","webguy")
 
 while admin_username in unapproved_user_names:
@@ -24,7 +29,11 @@ while admin_username in unapproved_user_names:
     admin_username = input_with_default("Admin username", "webguy")
 
 admin_password = generate_password_hash(input_with_default("Admin password","password"))
+
 admin_email = input_with_default("Contact Email", "")
+
+admin_gravatar = make_gravatar(admin_email)
+
 admin_github = input_with_default("Github Username", "")
 
 import model
@@ -32,7 +41,7 @@ Engine = create_engine(settings.BACKEND)
 Session = sessionmaker(bind=Engine)
 session = Session()
 try:
-    params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'email': admin_email}
+    params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'email': admin_email, 'gravatar': admin_gravatar}
     try:
         user = model.Author(**params)
         session.add(user)

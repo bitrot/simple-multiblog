@@ -1,0 +1,18 @@
+h1.title {
+    text-align: center;
+}
+
+li.gravatar, li.gravatar a {
+    border: 0px;
+    text-align: center;
+}
+
+li.gravatar img {
+    webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+li.github-authors {
+    text-align: center;
+}
