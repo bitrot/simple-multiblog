@@ -1,5 +1,6 @@
 h1.title {
     text-align: center;
+    font-variant: small-caps;
 }
 
 li.gravatar, li.gravatar a {
@@ -13,10 +14,15 @@ li.gravatar img {
     border-radius: 8px;
 }
 
+#authors {
+    margin-bottom: 20px;
+}
+
 li.github-authors {
     text-align: center;
+
 }
 
 li.feed-authors {
-    text-align: center;
+    text-align: left;
 }

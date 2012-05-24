@@ -44,12 +44,14 @@
             {% block sidebar %}{% endblock %}
         {% elif authors %}
             {% for author in authors %}
-                {% if author.gravatar %}
-                    <li class="gravatar"><a href="{{ url_for('get_author_posts', author=author.username) }}"><img src="{{ author.gravatar_url }}" /></a></li>
-                {% endif %}
-                {% if author.github %}
-                    <li class="github-authors"><a href="https://github.com/{{ author.github }}/">{{ author.github }}</a></li>
-                {% endif %}
+                <div id="authors">
+                    {% if author.gravatar %}
+                        <li class="gravatar"><a href="{{ url_for('get_author_posts', author=author.username) }}"><img src="{{ author.gravatar_url }}" /></a></li>
+                    {% endif %}
+                    {% if author.github %}
+                        <li class="github-authors"><a href="https://github.com/{{ author.github }}/">{{ author.github }}</a></li>
+                    {% endif %}
+                </div>
             {% endfor %}
         {% endif %}
     </ul>
@@ -69,6 +71,8 @@
 
 <div id="container">
     <time>
+        <a href="{{ url_for('index') }}">{{ config.BLOG_NAME }}</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+
         {% if post %}
             Posted {{ post.created_at.strftime('%B %d, %Y') }} by {{ post.author.username }}
             {% if post.created_at.strftime('%B %d, %Y') != post.updated_at.strftime('%B %d, %Y') %}
