@@ -25,6 +25,8 @@ with open("settings.py", "w") as fd:
 
     fd.write("ANALYTICS_ID = '%s'\n"%input_with_default("Google analytics ID",""))
 
+    fd.write("DISQUS_SHORTNAME = '%s'\n"%input_with_default("Disqus shortname",""))
+
     db_uri = input_with_default("Database URI","sqlite:///simple.db")
 
     fd.write("BACKEND = '%s'\n"%(db_uri))

@@ -7,7 +7,23 @@
     {% for post in posts %}
         <section id="post-{{ post.id }}">
             <div class="post contain">
-                <h1><a href="{{ url_for('get_author_slug', author=post.author.username, slug=post.slug, pid=current_page) }}">{{ post.title }}</a></h1>
+                {% if config.DISQUS_SHORTNAME %}
+                    <script type="text/javascript">
+                        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                        var disqus_shortname = {{ config.DISQUS_SHORTNAME }};
+
+                        /* * * DON'T EDIT BELOW THIS LINE * * */
+                        (function () {
+                            var s = document.createElement('script'); s.async = true;
+                            s.type = 'text/javascript';
+                            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+                            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+                        }());
+                    </script>
+                    <h1><a href="{{ url_for('get_author_slug', author=post.author.username, slug=post.slug, pid=current_page) }}#disqus-thread">{{ post.title }}</a></h1>
+                {% else %}
+                    <h1><a href="{{ url_for('get_author_slug', author=post.author.username, slug=post.slug, pid=current_page) }}">{{ post.title }}</a></h1>
+                {% endif %}
                 {{ post.render_content()|safe }}
             {% if is_admin %}
                 <ul class="actions">
@@ -21,12 +37,20 @@
     <nav class="pagination">
     {% if current_page > 0 %}
         <span class="prev">
-            <a href="{{ url_for("index", page=current_page-1) }}">< Previous</a>
+            {% if authors %}
+                <a href="{{ url_for("index", page=current_page-1) }}">< Previous</a>
+            {% elif author %}
+                <a href="{{ url_for("get_author_posts", page=current_page-1, author=author.username) }}">< Previous</a>
+            {% endif %}
         </span>
     {% endif %}
     {% if is_more %}
         <span class="next">
-            <a href="{{ url_for("index", page=current_page+1) }}">Next ></a>
+            {% if authors %}
+                <a href="{{ url_for("index", page=current_page+1) }}">Next ></a>
+            {% elif author %}
+                <a href="{{ url_for("get_author_posts", page=current_page+1, author=author.username) }}">Next ></a>
+            {% endif %}
         </span>
     {% endif %}
     </nav>

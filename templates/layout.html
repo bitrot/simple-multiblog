@@ -18,13 +18,15 @@
 <body onload="prettyPrint()">
 <header>
     <h1 class="title">
-        <a href="{{ url_for('index') }}">
-            {% if author %}
+        {% if author %}
+            <a href="{{ url_for('get_author_posts', author=author.username) }}">
                 {{ author.username }}
-            {% else %}
+            </a>
+        {% else %}
+            <a href="{{ url_for('index') }}">
                 {{ config.BLOG_NAME }}
-            {% endif %}
-        </a>
+            </a>
+        {% endif %}
     </h1>
     <ul>
         {% if author %}
@@ -51,6 +53,11 @@
             {% endfor %}
         {% endif %}
     </ul>
+    {% if authors %}
+        <ul>
+            <li class="feed-authors"><a href="/posts.rss">Feed</a></li>
+        </ul>
+    {% endif %}
     <span class="powered-by">
       Backed by <a href="http://github.com/bitrot/simple-multiblog">Simple-Multiblog</a><br />
         Based off of <a href="http://github.com/orf/simple">Simple</a>,

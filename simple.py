@@ -28,7 +28,7 @@ except ImportError:
 #$$$$$$$#
 
 app = Flask(__name__)
-app.debug = False
+app.debug = True
 app.config.from_object('settings')
 
 
@@ -83,6 +83,7 @@ def get_gravatar_url(url, size=80):
 @app.route("/", methods=["GET"])
 def index():
     page = request.args.get("page", 0, type=int)
+
     posts_master = session.query(Post).filter_by(draft=False).order_by(Post.created_at.desc())
     posts_count = posts_master.count()
 
@@ -117,10 +118,11 @@ def feed(author=None):
 @app.route("/<author>", methods=["GET"])
 def get_author_posts(author):
     page = request.args.get("page", 0, type=int)
+
     posts_master = session.query(Post).join(Author).filter(Author.username==author, Post.draft==False).order_by(Post.created_at.desc())
     posts_count = posts_master.count()
 
-    if not (posts_count > 0):
+    if posts_count == 0:
         return abort(404)
 
     posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()
