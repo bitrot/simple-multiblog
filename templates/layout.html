@@ -40,7 +40,7 @@
                 <li><img src="{{ url_for('static', filename='img/glyphicons_381_github.png') }}" class="gh-icon" />&nbsp;<a href="https://github.com/{{ author.github }}/">Github</a></li>
             {% endif %}
             {% if author.email %}
-                <li><img src="{{ url_for('static', filename='img/glyphicons_010_envelope.png') }}" class="m-icon" />&nbsp;<a href="mailto:{{ author.email }}?subject:Howdy">Email me</a></li>
+                <li><img src="{{ url_for('static', filename='img/glyphicons_010_envelope.png') }}" class="m-icon" />&nbsp;<a href="mailto:{{ author.email }}?subject:Howdy">{{ author.email }}</a></li>
             {% endif %}
         {% elif authors %}
             {% for author in authors %}
