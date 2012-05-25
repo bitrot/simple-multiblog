@@ -4,3 +4,4 @@
 *.db
 /settings.py
 build/*
+.DS_STORE

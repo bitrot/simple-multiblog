@@ -12,10 +12,12 @@
         <div class="post contain">
             <h1>{{ post.title }}</h1>
             {{ post.render_content()|safe }}
-            {% if is_admin %}
-                <ul class="actions">
-                    <li><a href="{{ url_for('edit', post_id=post.id) }}">Edit</a></li>
-                </ul>
+            {% if 'user_name' in session %}
+                {% if session['user_name'] == post.author.username %}
+                    <ul class="actions">
+                        <li><a href="{{ url_for('edit', id=post.id) }}">Edit</a></li>
+                    </ul>
+                {% endif %}
             {% endif %}
 
             <a class="button back" href="{{ url_for('get_author_posts', page=pid, author=post.author.username) }}">Back to Blog</a>

@@ -22,10 +22,12 @@
             <a href="{{ url_for('get_author_posts', author=author.username) }}">
                 {{ author.username }}
             </a>
+            <a class="rss" href="{{ url_for('get_author_feed', author=author.username) }}"><img class="rss" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}"></a>
         {% else %}
             <a href="{{ url_for('index') }}">
                 {{ config.BLOG_NAME }}
             </a>
+            <a class="rss" href="{{ url_for('feed') }}"><img class="rss" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}"></a>
         {% endif %}
     </h1>
     <ul>
@@ -41,13 +43,6 @@
                 <li><a href="mailto:{{ author.email }}?subject:Howdy">Email me</a></li>
             {% endif %}
             <li><a href="{{ url_for('get_author_feed', author=author.username) }}">Feed</a></li>
-            {% if 'user_id' in session %}
-                <li><a href="{{ url_for('admin') }}">Admin</a></li>
-            {% endif %}
-            {% if 'user_id' in session %}
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            {% endif %}
-            {% block sidebar %}{% endblock %}
         {% else %}
             {% for author in authors %}
                 <div id="authors">
@@ -60,19 +55,9 @@
                     {% endif %}
                 </div>
             {% endfor %}
-            {% if 'user_id' in session %}
-                <li><a href="{{ url_for('admin') }}">Admin</a></li>
-            {% endif %}
-            {% if 'user_id' in session %}
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            {% endif %}
         {% endif %}
+        {% block sidebar %}{% endblock %}
     </ul>
-    {% if authors %}
-        <ul>
-            <li class="feed-authors"><a href="/posts.rss">Feed</a></li>
-        </ul>
-    {% endif %}
     <span class="powered-by">
       Backed by <a href="http://github.com/bitrot/simple-multiblog">Simple-Multiblog</a><br />
         Based off of <a href="http://github.com/orf/simple">Simple</a>,
@@ -90,8 +75,16 @@
             {% if post.created_at.strftime('%B %d, %Y') != post.updated_at.strftime('%B %d, %Y') %}
                 - Updated {{ post.updated_at.strftime('%B %d, %Y') }}
             {% endif %}
+            {% if 'user_name' in session %}
+                &nbsp;&nbsp;|&nbsp;&nbsp;<a href="{{ url_for('admin') }}">Logged in</a> {{ session['user_name'] }}
+                &nbsp;(<a href="{{ url_for('logout') }}">Logout</a>)
+            {% endif %}
         {% else %}
             {{ now.strftime('%B %d, %Y') }}
+            {% if 'user_name' in session %}
+                &nbsp;&nbsp;|&nbsp;&nbsp;<a href="{{ url_for('admin') }}">Logged in</a> {{ session['user_name'] }}
+                &nbsp;(<a href="{{ url_for('logout') }}">Logout</a>)
+            {% endif %}
         {% endif %}
     </time>
     <div id="content">

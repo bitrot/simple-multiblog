@@ -25,10 +25,12 @@
                 {{ post.render_content()|safe }}
                 <br />
                 <p>By: {{ post.author.username }}</p>
-            {% if is_admin %}
-                <ul class="actions">
-                    <li><a href="{{ url_for('edit', post_id=post.id) }}">Edit</a></li>
-                </ul>
+            {% if 'user_name' in session %}
+                {% if session['user_name'] == post.author.username %}
+                    <ul class="actions">
+                        <li><a href="{{ url_for('edit', id=post.id) }}">Edit</a></li>
+                    </ul>
+                {% endif %}
             {% endif %}
             </div>
         </section>

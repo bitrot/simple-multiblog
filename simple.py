@@ -45,17 +45,21 @@ def requires_authentication(f):
         if not auth:
             return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
         else:
-            try:
-                author = db_session.query(Author).filter_by(username=auth.username).first()
-            except Exception:
-                app.logger.debug(format_exc())
-                return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
+            if auth.username and auth.password:
+                try:
+                    author = db_session.query(Author).filter_by(username=auth.username).first()
+                except Exception:
+                    app.logger.debug(format_exc())
+                    return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
 
-            if not check_password_hash(author.password, auth.password):
+                if not check_password_hash(author.password, auth.password):
+                    return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
+            else:
                 return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
 
         session["user_name"] = author.username
         session["user_id"]  = author.id
+
         
         return f(*args, **kwargs)
 
@@ -70,13 +74,16 @@ def slugify(text, delim=u'-'):
     slug = unicode(delim.join(result))
     _c = db_session.query(Post).filter_by(slug=slug).count()
     if _c > 0:
+
         return "%s%s%s" % (slug, delim, _c)
     else:
+
         return slug
 
 def get_gravatar_url(url, size=80):
     default = 'retro'
     url += urllib.urlencode({'d':default, 's':str(size)})
+
     return url
 
 
@@ -106,17 +113,18 @@ def index():
 
 @app.route("/posts.rss", methods=["GET"])
 def feed(author=None):
-    if author:
-        try:
+    try:
+        if author:
             posts = db_session.query(Post).join(Author).filter(Author.username==author, Post.draft==False).order_by(Post.created_at.desc()).limit(10).all()
-        except Exception:
-            app.logger.debug(format_exc())
-            return abort(404)
-    else:
-        posts = db_session.query(Post).filter_by(draft=False).order_by(Post.created_at.desc()).limit(10).all()
+        else:
+            posts = db_session.query(Post).filter_by(draft=False).order_by(Post.created_at.desc()).limit(10).all()
+    except Exception:
+        app.logger.debug(format_exc())
+        return abort(404)
 
     r = make_response(render_template('index.xml', posts=posts))
     r.mimetype = "application/xml"
+
     return r
 
 @app.route("/<author>", methods=["GET"])
@@ -157,7 +165,9 @@ def get_author_post(author, post_id):
     if author.gravatar:
         author.gravatar_url = get_gravatar_url(author.gravatar)
 
-    return render_template("view.html", post=post, author=author)
+    pid = request.args.get("pid", "0")
+
+    return render_template("view.html", post=post, pid=pid, author=author)
 
 @app.route("/<author>/<slug>", methods=["GET"])
 def get_author_slug(author, slug):
@@ -177,10 +187,12 @@ def get_author_slug(author, slug):
         author.gravatar_url = get_gravatar_url(author.gravatar)
 
     pid = request.args.get("pid", "0")
+
     return render_template("view.html", post=post, pid=pid, author=author)
 
 @app.route("/<author>/posts.rss", methods=["GET"])
 def get_author_feed(author):
+
     return feed(author=author)
 
 @app.route("/new", methods=["POST", "GET"])
@@ -250,6 +262,7 @@ def save_post(id):
     post.text = request.form.get("content", "")
     post.updated_at = datetime.datetime.now()
     db_session.commit()
+
     return jsonify(success=True)
 
 @app.route("/delete/<int:id>", methods=["GET","POST"])
@@ -276,8 +289,9 @@ def admin():
 
 @app.route("/logout", methods=["GET"])
 def logout():
-    session.pop('username', None)
+    session.pop('user_name', None)
     session.pop('user_id', None)
+
     return abort(401)
 
 

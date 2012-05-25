@@ -23,11 +23,12 @@ li.gh-authors {
 
 }
 
-li.feed-authors {
-    text-align: left;
-}
-
 .back {
     margin-top: 50px;
     margin-bottom: 50px;
+}
+
+img.rss, img.rss a, a.rss {
+    border: 0px;
+    margin-left: 5px;
 }

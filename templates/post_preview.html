@@ -14,11 +14,10 @@
     <body style="margin:10px 50px;" onload="prettyPrint()">
         <div>
             <div id="content">
-                    <div class="post contain">
-                        <h1>{{ post.title }}</h1>
-                        {{ post.render_content()|safe }}
-                    </div>
-
+                <div class="post contain">
+                    <h1>{{ post.title }}</h1>
+                    {{ post.render_content()|safe }}
+                </div>
             </div>
         </div>
     </body>
