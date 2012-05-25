@@ -23,6 +23,8 @@
                     <h1><a href="{{ url_for('get_author_slug', author=post.author.username, slug=post.slug, pid=current_page) }}">{{ post.title }}</a></h1>
                 {% endif %}
                 {{ post.render_content()|safe }}
+                <br />
+                <p>By: {{ post.author.username }}</p>
             {% if is_admin %}
                 <ul class="actions">
                     <li><a href="{{ url_for('edit', post_id=post.id) }}">Edit</a></li>

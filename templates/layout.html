@@ -7,7 +7,7 @@
     <link href="{{ url_for('static', filename='css/s-mb.css') }}" type="text/css" media="screen" rel="stylesheet">
     {% if author %}
         <link href="{{ url_for('get_author_feed', author=author.username) }}" rel="alternate" title="RSS" type="application/rss+xml" />
-    {% elif authors %}
+    {% else %}
         <link href="{{ url_for('feed') }}" rel="alternate" title="RSS" type="application/rss+xml" />
     {% endif %}
     <link href='http://fonts.googleapis.com/css?family=Lato:300,900' rel='stylesheet' type='text/css' />
@@ -42,10 +42,10 @@
             {% endif %}
             <li><a href="{{ url_for('get_author_feed', author=author.username) }}">Feed</a></li>
             {% block sidebar %}{% endblock %}
-        {% elif authors %}
+        {% else %}
             {% for author in authors %}
                 <div id="authors">
-                    {% if author.gravatar %}
+                    {% if author.gravatar_url %}
                         <li class="gravatar"><a href="{{ url_for('get_author_posts', author=author.username) }}"><img src="{{ author.gravatar_url }}" /></a></li>
                     {% endif %}
                     {% if author.github %}

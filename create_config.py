@@ -3,6 +3,8 @@ from traceback import format_exc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import hashlib
+import datetime
+import os
 
 unapproved_user_names = ['admin', 'Admin', 'new', 'New', 'edit', 'Edit', 'delete', 'Delete', 'preview', 'Preview', 'save', 'Save', 'logout', 'Logout']
 
@@ -16,6 +18,10 @@ def make_gravatar(email):
     url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
     return url
 
+def gen_secret():
+    secret = hashlib.sha256(os.urandom(256) + datetime.now().isoformat()).hexdigest()[:32]
+    return secret
+
 print "Generating a Simple config file. Please answer some questions:"
 
 with open("settings.py", "w") as fd:
@@ -23,9 +29,9 @@ with open("settings.py", "w") as fd:
 
     fd.write("POSTS_PER_PAGE = %s\n"%input_with_default("Posts per page", 5))
 
-    fd.write("ANALYTICS_ID = '%s'\n"%input_with_default("Google analytics ID",""))
+    fd.write("ANALYTICS_ID = '%s'\n"%input_with_default("Analytics ID",""))
 
-    fd.write("DISQUS_SHORTNAME = '%s'\n"%input_with_default("Disqus shortname",""))
+    fd.write("DISQUS_SHORTNAME = '%s'\n"%input_with_default("Disqus Shortname",""))
 
     db_uri = input_with_default("Database URI","sqlite:///simple.db")
 
@@ -47,9 +53,9 @@ with open("settings.py", "w") as fd:
 
     fd.write("BLOG_NAME = '%s'\n"%input_with_default("Blog Name","Simple-MultiBlog"))
 
-    fd.write("BLOG_URL = '%s'\n"%input_with_default("Blog URL",""))
+    fd.write("BLOG_URL = '%s'\n"%input_with_default("Blog URL (Please do not include the trailing slash!)",""))
 
-    fd.write("SECRET_KEY = '%s'\n"%input_with_default("Secret Key", "ChangeMePlease"))
+    fd.write("SECRET_KEY = '%s'\n"%gen_secret())
 
     fd.flush()
 
@@ -69,5 +75,3 @@ finally:
     session.close()
 
 print "Created!"
-
-raw_input()

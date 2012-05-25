@@ -1,6 +1,5 @@
 import re
 import datetime
-import markdown
 import urllib
 from sys import exit
 from werkzeug.security import check_password_hash
@@ -30,7 +29,6 @@ except ImportError:
 app = Flask(__name__)
 app.debug = True
 app.config.from_object('settings')
-
 app.secret_key = app.config["SECRET_KEY"]
 
 
@@ -56,7 +54,7 @@ def requires_authentication(f):
             if not check_password_hash(author.password, auth.password):
                 return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
 
-        session["username"] = author.username
+        session["user_name"] = author.username
         session["user_id"]  = author.id
         
         return f(*args, **kwargs)
@@ -81,6 +79,7 @@ def get_gravatar_url(url, size=80):
     url += urllib.urlencode({'d':default, 's':str(size)})
     return url
 
+
 #%%%%%%%%#
 # ROUTES #
 #%%%%%%%%#
@@ -99,11 +98,11 @@ def index():
     authors = []
 
     for author in _authors:
-        author.gravatar_url = get_gravatar_url(author.gravatar)
+        if author.gravatar:
+            author.gravatar_url = get_gravatar_url(author.gravatar)
         authors.append(author)
 
-    return render_template("index.html", posts=posts, now=datetime.datetime.now(),
-                                     is_more=is_more, current_page=page, authors=authors)
+    return render_template("index.html", posts=posts, now=datetime.datetime.now(), is_more=is_more, current_page=page, authors=authors)
 
 @app.route("/posts.rss", methods=["GET"])
 def feed(author=None):
@@ -124,20 +123,22 @@ def feed(author=None):
 def get_author_posts(author):
     page = request.args.get("page", 0, type=int)
 
+    count = db_session.query(Author).filter_by(username=author).count()
+
+    if count < 1:
+        return abort(404)
+
     posts_master = db_session.query(Post).join(Author).filter(Author.username==author, Post.draft==False).order_by(Post.created_at.desc())
     posts_count = posts_master.count()
-
-    if posts_count == 0:
-        return abort(404)
 
     posts = posts_master.limit(app.config["POSTS_PER_PAGE"]).offset(page*app.config["POSTS_PER_PAGE"]).all()
     is_more = posts_count > ((page*app.config["POSTS_PER_PAGE"]) + app.config["POSTS_PER_PAGE"])
 
     author = db_session.query(Author).filter_by(username=author).one()
-    author.gravatar_url = get_gravatar_url(author.gravatar)
+    if author.gravatar:
+        author.gravatar_url = get_gravatar_url(author.gravatar)
 
-    return render_template("index.html", posts=posts, now=datetime.datetime.now(),
-                                     is_more=is_more, current_page=page, author=author)
+    return render_template("index.html", posts=posts, now=datetime.datetime.now(), is_more=is_more, current_page=page, author=author)
 
 @app.route("/<author>/<int:post_id>", methods=["GET"])
 def get_author_post(author, post_id):
@@ -153,7 +154,8 @@ def get_author_post(author, post_id):
     db_session.commit()
 
     author = post.author
-    author.gravatar_url = get_gravatar_url(author.gravatar)
+    if author.gravatar:
+        author.gravatar_url = get_gravatar_url(author.gravatar)
 
     return render_template("view.html", post=post, author=author)
 
@@ -171,7 +173,8 @@ def get_author_slug(author, slug):
     db_session.commit()
 
     author = post.author
-    author.gravatar_url = get_gravatar_url(author.gravatar)
+    if author.gravatar:
+        author.gravatar_url = get_gravatar_url(author.gravatar)
 
     pid = request.args.get("pid", "0")
     return render_template("view.html", post=post, pid=pid, author=author)
@@ -185,8 +188,7 @@ def get_author_feed(author):
 def new_post():
     post = Post()
     post.title = request.form.get("title","untitled")
-    # TODO: fix this crap below
-    post.author_id = 1
+    post.author_id = session['user_id']
     post.slug = slugify(post.title)
     post.created_at = datetime.datetime.now()
     post.updated_at = datetime.datetime.now()
@@ -200,7 +202,7 @@ def new_post():
 @requires_authentication
 def preview(id):
     try:
-        post = db_session.query(Post).filter_by(id=id).one()
+        post = db_session.query(Post).join(Author).filter(Author.id==session['user_id'], Post.id==id).one()
     except Exception:
         app.logger.debug(format_exc())
         return abort(404)
@@ -211,7 +213,7 @@ def preview(id):
 @requires_authentication
 def edit(id):
     try:
-        post = db_session.query(Post).filter_by(id=id).one()
+        post = db_session.query(Post).join(Author).filter(Author.id==session['user_id'], Post.id==id).one()
     except Exception:
         app.logger.debug(format_exc())
         return abort(404)
@@ -238,7 +240,7 @@ def edit(id):
 @requires_authentication
 def save_post(id):
     try:
-        post = db_session.query(Post).filter_by(id=id).one()
+        post = db_session.query(Post).join(Author).filter(Author.id==session['user_id'], Post.id==id).one()
     except Exception:
         app.logger.debug(format_exc())
         return abort(404)
@@ -254,7 +256,7 @@ def save_post(id):
 @requires_authentication
 def delete(id):
     try:
-        post = db_session.query(Post).filter_by(id=id).one()
+        post = db_session.query(Post).join(Author).filter(Author.id==session['user_id'], Post.id==id).one()
     except Exception:
         app.logger.debug(format_exc())
         flash("Error deleting post ID %s"%id, category="error")
@@ -267,10 +269,9 @@ def delete(id):
 @app.route("/admin", methods=["GET", "POST"])
 @requires_authentication
 def admin():
-    drafts = db_session.query(Post).filter_by(draft=True)\
-                                          .order_by(Post.created_at.desc()).all()
-    posts  = db_session.query(Post).filter_by(draft=False)\
-                                          .order_by(Post.created_at.desc()).all()
+    drafts = db_session.query(Post).join(Author).filter(Author.id==session['user_id'], Post.draft==True).order_by(Post.created_at.desc()).all()
+    posts  = db_session.query(Post).join(Author).filter(Author.id==session['user_id'], Post.draft==False).order_by(Post.created_at.desc()).all()
+
     return render_template("admin.html", drafts=drafts, posts=posts)
 
 

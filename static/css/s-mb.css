@@ -26,3 +26,8 @@ li.github-authors {
 li.feed-authors {
     text-align: left;
 }
+
+.back {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}

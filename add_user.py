@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash
 from traceback import format_exc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import IntegrityError
 import hashlib
 
 try:
@@ -40,16 +41,14 @@ import model
 Engine = create_engine(settings.BACKEND)
 Session = sessionmaker(bind=Engine)
 session = Session()
+
 try:
     params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'email': admin_email, 'gravatar': admin_gravatar}
-    try:
-        user = model.Author(**params)
-        session.add(user)
-        session.commit()
-    except IntegrityError as e:
-        exit('That user already seems to exist!')
-except:
-    exit(format_exc())
+    user = model.Author(**params)
+    session.add(user)
+    session.commit()
+except IntegrityError as e:
+    exit('That user already seems to exist!')
 finally:
     session.close()
 
