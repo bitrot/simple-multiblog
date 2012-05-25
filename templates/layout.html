@@ -41,6 +41,12 @@
                 <li><a href="mailto:{{ author.email }}?subject:Howdy">Email me</a></li>
             {% endif %}
             <li><a href="{{ url_for('get_author_feed', author=author.username) }}">Feed</a></li>
+            {% if 'user_id' in session %}
+                <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            {% endif %}
+            {% if 'user_id' in session %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% endif %}
             {% block sidebar %}{% endblock %}
         {% else %}
             {% for author in authors %}
@@ -48,11 +54,18 @@
                     {% if author.gravatar_url %}
                         <li class="gravatar"><a href="{{ url_for('get_author_posts', author=author.username) }}"><img src="{{ author.gravatar_url }}" /></a></li>
                     {% endif %}
+                        <li class="gh-authors">[author] <a href="{{ url_for('get_author_posts', author=author.username) }}">{{ author.username }}</a></li>
                     {% if author.github %}
-                        <li class="github-authors"><a href="https://github.com/{{ author.github }}/">{{ author.github }}</a></li>
+                        <li class="gh-authors">[github] <a href="https://github.com/{{ author.github }}/">{{ author.github }}</a></li>
                     {% endif %}
                 </div>
             {% endfor %}
+            {% if 'user_id' in session %}
+                <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            {% endif %}
+            {% if 'user_id' in session %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% endif %}
         {% endif %}
     </ul>
     {% if authors %}
@@ -64,7 +77,6 @@
       Backed by <a href="http://github.com/bitrot/simple-multiblog">Simple-Multiblog</a><br />
         Based off of <a href="http://github.com/orf/simple">Simple</a>,
           inspired by <a href="https://github.com/NateW/obtvse">Obtvse</a>
-      {# <% if is_admin? %> &nbsp;&middot;&nbsp; <a href="/admin">Admin</a><% end %> #}
     </span>
 
 </header>

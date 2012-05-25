@@ -274,6 +274,11 @@ def admin():
 
     return render_template("admin.html", drafts=drafts, posts=posts)
 
+@app.route("/logout", methods=["GET"])
+def logout():
+    session.pop('username', None)
+    session.pop('user_id', None)
+    return abort(401)
 
 
 
