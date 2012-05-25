@@ -24,7 +24,7 @@
                 {% endif %}
                 {{ post.render_content()|safe }}
                 <br />
-                <p>By: {{ post.author.username }}</p>
+                <p>By: <a href="{{ url_for('get_author_posts', author=post.author.username) }}">{{ post.author.username }}</a></p>
             {% if 'user_name' in session %}
                 {% if session['user_name'] == post.author.username %}
                     <ul class="actions">
