@@ -36,14 +36,14 @@ And you're good to go!
 Deployment
 ============
 
-Quick Note: The -w flag for gunicorn signifies how many processes (read workers) you want to start. The recomended amount of workers is 2x the number of cores per CPU.
+_Quick Note: The -w flag for gunicorn signifies how many processes (read workers) you want to start. The recomended amount of workers is 2x the number of cores per CPU._
 
 
 ####With NGINX
 
 To deploy, install & setup [NGINX](http://nginx.org/). See how to configure NGINX with Gunicorn [here](http://gunicorn.org/deploy.html).
 
-Navigate to your simple-multiblog directory and start some gunicorn proccesses: ``gunicorn -w 4 -b unix:/tmp/gunicorn.sock -D``
+Navigate to your simple-multiblog directory and start some gunicorn processes: ``gunicorn -w 4 -b unix:/tmp/gunicorn.sock -D``
 
 
 ####Without NGINX
