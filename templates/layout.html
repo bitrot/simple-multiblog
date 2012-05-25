@@ -22,12 +22,12 @@
             <a href="{{ url_for('get_author_posts', author=author.username) }}">
                 {{ author.username }}
             </a>
-            <a class="rss" href="{{ url_for('get_author_feed', author=author.username) }}"><img class="rss" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" /></a>
+            <a class="rss" href="{{ url_for('get_author_feed', author=author.username) }}"><img class="rss" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" height="18" width="18" /></a>
         {% else %}
             <a href="{{ url_for('index') }}">
                 {{ config.BLOG_NAME }}
             </a>
-            <a class="rss" href="{{ url_for('feed') }}"><img class="rss" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" /></a>
+            <a class="rss" href="{{ url_for('feed') }}"><img class="rss" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" height="18" width="18" /></a>
         {% endif %}
     </h1>
     <ul>
@@ -42,15 +42,11 @@
             {% if author.email %}
                 <li><img src="{{ url_for('static', filename='img/glyphicons_010_envelope.png') }}" height="12" width="12" />&nbsp;<a href="mailto:{{ author.email }}?subject:Howdy">Email me</a></li>
             {% endif %}
-        {% else %}
+        {% elif authors %}
             {% for author in authors %}
                 <div id="authors">
                     {% if author.gravatar_url %}
                         <li class="gravatar"><a href="{{ url_for('get_author_posts', author=author.username) }}"><img src="{{ author.gravatar_url }}" /></a></li>
-                    {% endif %}
-                        <li class="gh-authors"><a href="{{ url_for('get_author_posts', author=author.username) }}">{{ author.username }}</a></li>
-                    {% if author.github %}
-                        <li class="gh-authors"><a href="https://github.com/{{ author.github }}/">{{ author.github }}</a></li>
                     {% endif %}
                 </div>
             {% endfor %}
@@ -91,12 +87,15 @@
     </div>
 </div>
 
-<!-- Google Analytics -->
-<script>
-    var _gaq=[['_setAccount','{{ config["ANALYTICS_ID"] }}'],['_trackPageview']];
-    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-        s.parentNode.insertBefore(g,s)}(document,'script'));
-</script>
+{% if config['ANALYTICS_ID'] %}
+    <!-- Google Analytics -->
+    <script>
+        var _gaq=[['_setAccount','{{ config["ANALYTICS_ID"] }}'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+{% endif %}
+
 </body>
 </html>

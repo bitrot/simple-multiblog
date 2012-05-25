@@ -33,6 +33,10 @@ admin_password = generate_password_hash(input_with_default("Admin password","pas
 
 admin_email = input_with_default("Contact Email", "")
 
+while not admin_email:
+    print "Please provide an email. This will be used to generate your gravatar image."
+    admin_email = input_with_default("Contact Email", "")
+
 admin_gravatar = make_gravatar(admin_email)
 
 admin_github = input_with_default("Github Username", "")

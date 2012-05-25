@@ -2,8 +2,8 @@ from werkzeug.security import generate_password_hash
 from traceback import format_exc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from datetime import datetime
 import hashlib
-import datetime
 import os
 
 unapproved_user_names = ['admin', 'Admin', 'new', 'New', 'edit', 'Edit', 'delete', 'Delete', 'preview', 'Preview', 'save', 'Save', 'logout', 'Logout']
@@ -47,13 +47,23 @@ with open("settings.py", "w") as fd:
 
     admin_email = input_with_default("Contact Email", "")
 
+    while not admin_email:
+        print "Please provide an email. This will be used to generate your gravatar image."
+        admin_email = input_with_default("Contact Email", "")
+
     admin_gravatar = make_gravatar(admin_email)
 
     admin_github = input_with_default("Github Username", "")
 
-    fd.write("BLOG_NAME = '%s'\n"%input_with_default("Blog Name","Simple-MultiBlog"))
+    fd.write("BLOG_NAME = '%s'\n"%input_with_default("Blog Name","Simple-MB"))
 
-    fd.write("BLOG_URL = '%s'\n"%input_with_default("Blog URL (Please do not include the trailing slash!)",""))
+    blog_url = input_with_default("Blog URL (Please do not include the trailing slash!)","")
+
+    while not blog_url:
+        print "You must enter a URL!"
+        blog_url = input_with_default("Blog URL (Please do not include the trailing slash!)","")
+
+    fd.write("BLOG_URL = '%s'\n"%blog_url)
 
     fd.write("SECRET_KEY = '%s'\n"%gen_secret())
 
