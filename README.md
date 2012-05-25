@@ -1,8 +1,8 @@
 Simple Multiblog
 ================
 Simple Multiblog builds upon the awesome blog, [Simple](https://github.com/orf/simple), and 
-adds multiple author functionality.  We loved the simplicity in UI/UX but we traded some of the
-architectural simplicity for additional features.  However, we think the code base is still pretty easy to follow.
+adds multiple author functionality.  We loved the simplicity in UI/UX but we traded portions of the
+architectural sugar for additional features.  However, we think the code base is still pretty easy to follow.
 Props go to [Simple](https://github.com/orf/simple), [Obtvse](https://github.com/NateW/obtvse), 
 and [Dustin Curtis' Svbtle](http://dcurt.is/codename-svbtle) for an awesome chain of inspiration.
 
@@ -12,7 +12,7 @@ under the name [bitrot](https://github.com/bitrot).
 ####Short list of feature additions
 * UI and backend support for multiple authors
 * [Gravatar](http://gravatar.com) integration
-* [Disqus](http://http://disqus.com/) integration
+* [Disqus](http://disqus.com/) integration
 * Logout functionality (WIP; Simple and Simple-MB use basic auth making logout dicey but in turn authentication simple)
 * Data model for Authors (users) in addition to Posts
 
