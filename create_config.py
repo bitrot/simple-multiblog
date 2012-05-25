@@ -65,6 +65,8 @@ with open("settings.py", "w") as fd:
 
     fd.write("BLOG_URL = '%s'\n"%blog_url)
 
+    fd.write("IDL = %s\n"%input_with_default("Would like you like to enable the Internet Defense League call to action? (True|False)", False))
+
     fd.write("SECRET_KEY = '%s'\n"%gen_secret())
 
     fd.flush()
