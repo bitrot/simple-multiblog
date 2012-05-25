@@ -36,7 +36,7 @@ And you're good to go!
 Deployment
 ============
 
-_Quick Note: The -w flag for gunicorn signifies how many processes (read workers) you want to start. The recomended amount of workers is 2x the number of cores per CPU._
+_Quick Note: The -w flag for gunicorn signifies how many processes (read workers) you want to start. The recommended amount of workers is 2x the number of cores per CPU._
 
 
 ####With NGINX
