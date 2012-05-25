@@ -1,13 +1,21 @@
 Simple Multiblog
 ================
-An extension of [Simple](https://github.com/orf/simple) that adds multiple author functionality.
+Simple Multiblog builds upon the awesome blog, [Simple](https://github.com/orf/simple), and 
+adds multiple author functionality.  We loved the simplicity in UI/UX but we traded some of the
+architectural simplicity for additional features.  However, we think the code base is still pretty easy to follow.
+Props go to [Simple](https://github.com/orf/simple), [Obtvse](https://github.com/NateW/obtvse), 
+and [Dustin Curtis' Svbtle](http://dcurt.is/codename-svbtle) for an awesome chain of inspiration.
 
-(We really liked Simple, Obtvse, and Svbtle, but wanted multiple authors and a few other features. \- [rmacy](https://github.com/rmacy) and [ehaughee](https://github.com/ehaughee))
+Simple Multiblog is maintained by [Ryan Macy](https://github.com/rmacy) and [Eric Haughee](https://github.com/ehaughee) 
+under the name [bitrot](https://github.com/bitrot).
 
-About
-============
-The point of Simple is to be simple. The blog is 1 file (excluding resources) with a few simple pure-python dependancies, it doesn't
-require a database server, has a small footprint and is fairly fast.
+####Short list of feature additions
+* UI and backend support for multiple authors
+* [Gravatar](http://gravatar.com) integration
+* [Disqus](http://http://disqus.com/) integration
+* Logout functionality (WIP; Simple and Simple-MB use basic auth making logout dicey but in turn authentication simple)
+* Data model for Authors (users) in addition to Posts
+
 
 Installation
 ============
@@ -32,10 +40,7 @@ And you're good to go!
 
 Deployment
 ============
-Deploying Simple is easy. Simply clone this repo (or your own) and install [Gunicorn](http://gunicorn.org/).
-Then cd to the directory containing simple.py and run the following command:
-``gunicorn -w 4 simple:app``
-This will start 4 gunicorn workers serving Simple. You can then use nginx or apache to forward requests to Gunicorn.
+TODO
 
 Example
 ============
