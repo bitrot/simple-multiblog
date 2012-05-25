@@ -37,8 +37,4 @@
             {% endfor %}
         </ul>
     </div>
-    {% if 'user_name' in session %}
-        &nbsp;<a href="{{ url_for('admin') }}">Logged in</a> {{ session['user_name'] }}
-        &nbsp;(<a href="{{ url_for('logout') }}">Logout</a>)
-    {% endif %}
 {% endblock %}

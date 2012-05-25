@@ -59,3 +59,9 @@ img.r-icon {
     border-radius: 22px;
     margin-right: 4px;
 }
+
+#admin-logout {
+    position: fixed;
+    left: 50px;
+    bottom: 50px;
+}
