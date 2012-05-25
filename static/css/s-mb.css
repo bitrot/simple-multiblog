@@ -61,7 +61,7 @@ img.r-icon {
 }
 
 #admin-logout {
-    position: fixed;
-    left: 50px;
-    bottom: 100px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
 }
