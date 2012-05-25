@@ -28,8 +28,13 @@ You can see the blog live @ [bitrot](http://bitrot.io/).
 Screenshots
 ===========
 ![Admin](https://s3.amazonaws.com/bitrot/bitrot_docs_admin.png)
+- - -
 ![Draft](https://s3.amazonaws.com/bitrot/bitrot_docs_edit.png)
+- - -
 ![Live](https://s3.amazonaws.com/bitrot/bitrot_docs_post.png)
+- - -
 ![Author] (https://s3.amazonaws.com/bitrot/bitrot_docs_author_eric.png)
+- - -
 ![Author] (https://s3.amazonaws.com/bitrot/bitrot_docs_author_ryan.png)
+- - -
 ![Authors] (https://s3.amazonaws.com/bitrot/bitrot_docs_multi_user.png)
