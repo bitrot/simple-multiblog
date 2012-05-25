@@ -4,9 +4,9 @@ We really liked Simple, Obtvse, and Svbtle, but wanted multiple authors and a fe
 \- [rmacy](https://github.com/rmacy) and [ehaughee](https://github.com/ehaughee)
 
 
-Simple
+Simple Multiblog
 ================
-A clone of [Obtvse](http://github.com/NateW/obtvse).
+An extension of [Simple](https://github.com/orf/simple) that adds multiple author functionality.
 
 About
 ============
@@ -27,10 +27,13 @@ This will start 4 gunicorn workers serving Simple. You can then use nginx or apa
 
 Example
 ============
-You can see my blog running this software [here](http://tomforb.es/simple).
+You can see the blog live @ [bitrot](http://bitrot.io/).
 
 Screenshots
 ===========
-![Admin](http://i.imgur.com/vWfOs.png)
-![Draft](http://i.imgur.com/T9BX4.png)
-![Live](http://i.imgur.com/WWDK4.png)
+![Admin](https://s3.amazonaws.com/bitrot/bitrot_docs_admin.png)
+![Draft](https://s3.amazonaws.com/bitrot/bitrot_docs_edit.png)
+![Live](https://s3.amazonaws.com/bitrot/bitrot_docs_post.png)
+![Author] (https://s3.amazonaws.com/bitrot/bitrot_docs_author_eric.png)
+![Author] (https://s3.amazonaws.com/bitrot/bitrot_docs_author_ryan.png)
+![Authors] (https://s3.amazonaws.com/bitrot/bitrot_docs_multi_user.png)
