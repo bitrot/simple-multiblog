@@ -22,12 +22,12 @@
             <a href="{{ url_for('get_author_posts', author=author.username) }}">
                 {{ author.username }}
             </a>
-            <a class="rss" href="{{ url_for('get_author_feed', author=author.username) }}"><img class="rss" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" height="18" width="18" /></a>
+            <a class="rss" href="{{ url_for('get_author_feed', author=author.username) }}"><img class="rss r-icon" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" /></a>
         {% else %}
             <a href="{{ url_for('index') }}">
                 {{ config.BLOG_NAME }}
             </a>
-            <a class="rss" href="{{ url_for('feed') }}"><img class="rss" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" height="18" width="18" /></a>
+            <a class="rss" href="{{ url_for('feed') }}"><img class="rss r-icon" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" /></a>
         {% endif %}
     </h1>
     <ul>
@@ -37,10 +37,10 @@
                 <br />
             {% endif %}
             {% if author.github %}
-                <li><img src="{{ url_for('static', filename='img/glyphicons_381_github.png') }}" height="12" width="12" />&nbsp;<a href="https://github.com/{{ author.github }}/">Github</a></li>
+                <li><img src="{{ url_for('static', filename='img/glyphicons_381_github.png') }}" class="gh-icon" />&nbsp;<a href="https://github.com/{{ author.github }}/">Github</a></li>
             {% endif %}
             {% if author.email %}
-                <li><img src="{{ url_for('static', filename='img/glyphicons_010_envelope.png') }}" height="12" width="12" />&nbsp;<a href="mailto:{{ author.email }}?subject:Howdy">Email me</a></li>
+                <li><img src="{{ url_for('static', filename='img/glyphicons_010_envelope.png') }}" class="m-icon" />&nbsp;<a href="mailto:{{ author.email }}?subject:Howdy">Email me</a></li>
             {% endif %}
         {% elif authors %}
             {% for author in authors %}
