@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Simple-MultiBlog by bitrot</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Simple-MultiBlog</h1>
+        <p>Simple-MultiBlog extends the functionality of simple, which is a clone of Obtvse written in Python running on Flask.</p>
+        <p class="view"><a href="https://github.com/bitrot/simple-multiblog">View the Project on GitHub <small>bitrot/simple-multiblog</small></a></p>
+        <ul>
+          <li><a href="https://github.com/bitrot/simple-multiblog/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/bitrot/simple-multiblog/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/bitrot/simple-multiblog">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Simple Multiblog</h1>
+
+<p>Simple Multiblog builds upon the awesome blog, <a href="https://github.com/orf/simple">Simple</a>, and 
+adds multiple author functionality.  We loved the simplicity in UI/UX but we traded portions of the
+architectural sugar for additional features.  However, we think the code base is still pretty easy to follow.
+Props go to <a href="https://github.com/orf/simple">Simple</a>, <a href="https://github.com/NateW/obtvse">Obtvse</a>, 
+and <a href="http://dcurt.is/codename-svbtle">Dustin Curtis' Svbtle</a> for an awesome chain of inspiration.</p>
+
+<p>Simple Multiblog is maintained by <a href="https://github.com/rmacy">Ryan Macy</a> and <a href="https://github.com/ehaughee">Eric Haughee</a> 
+under the name <a href="https://github.com/bitrot">bitrot</a>.</p>
+
+<h4>Short list of feature additions</h4>
+
+<ul>
+<li>UI and backend support for multiple authors</li>
+<li>
+<a href="http://gravatar.com">Gravatar</a> integration</li>
+<li>
+<a href="http://disqus.com/">Disqus</a> integration</li>
+<li>Logout functionality (WIP; Simple and Simple-MB use basic auth making logout dicey but in turn authentication simple)</li>
+<li>Data model for Authors (users) in addition to Posts</li>
+</ul><h1>Installation</h1>
+
+<p>First clone the repo: <code>git clone git://github.com/bitrot/simple-multiblog.git</code></p>
+
+<p>Install <a href="http://gunicorn.org">Gunicorn</a> with <a href="https://crate.io/packages/pip/">PIP</a>: <code>pip install gunicorn</code></p>
+
+<p>Descend into the simple-multiblog directory: <code>cd simple-multiblog</code></p>
+
+<p>Install dependancies: <code>pip install -U -r .requirements</code></p>
+
+<p>Create the config: <code>python create_config.py</code></p>
+
+<p>And you're good to go!</p>
+
+<p>(To add users run <code>python add_user.py</code>)</p>
+
+<h1>Deployment</h1>
+
+<p><em>Quick Note: The -w flag for gunicorn signifies how many processes (read workers) you want to start. The recommended amount of workers is 2x the number of cores per CPU.</em></p>
+
+<h4>With NGINX</h4>
+
+<p>To deploy, install &amp; setup <a href="http://nginx.org/">NGINX</a>. See how to configure NGINX with Gunicorn <a href="http://gunicorn.org/deploy.html">here</a>.</p>
+
+<p>Navigate to your simple-multiblog directory and start some gunicorn processes: <code>gunicorn -w 4 -b unix:/tmp/gunicorn.sock simple:app -D</code></p>
+
+<h4>Without NGINX</h4>
+
+<p>To deploy without NGINX, navigate to the simple-multiblog directory and start some gunicorn processes: <code>gunicorn -w 4 -b 0.0.0.0 simple:app -D</code></p>
+
+<p>Caveat! gunicorn is very susceptible to denial-of-service attacks without a proxy buffer like NGINX.</p>
+
+<h4>Flask Development Server</h4>
+
+<p>Naviagate to your simple-multiblog directory and run: <code>python simple.py</code> to start the development server.</p>
+
+<p>Open <code>simple.py</code> with your favorite editor and change <code>app.debug = False</code> to <code>app.debug = True</code> to turn on the development features of Flask.</p>
+
+<p>The server will automatically reload when it detects a code change when <code>app.debug = True</code> is set.</p>
+
+<h1>Example</h1>
+
+<p>You can see the blog live @ <a href="http://bitrot.io/">bitrot</a>.</p>
+
+<h1>Screenshots</h1>
+
+<hr><p><img src="https://s3.amazonaws.com/bitrot/bitrot_docs_admin.png" alt="Admin"></p>
+
+<hr><p><img src="https://s3.amazonaws.com/bitrot/bitrot_docs_edit.png" alt="Draft"></p>
+
+<hr><p><img src="https://s3.amazonaws.com/bitrot/bitrot_docs_post.png" alt="Live"></p>
+
+<hr><p><img src="https://s3.amazonaws.com/bitrot/bitrot_docs_author_eric.png" alt="Author"></p>
+
+<hr><p><img src="https://s3.amazonaws.com/bitrot/bitrot_docs_author_ryan.png" alt="Author"></p>
+
+<hr><p><img src="https://s3.amazonaws.com/bitrot/bitrot_docs_multi_user.png" alt="Authors"></p>
+
+<hr>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/bitrot">bitrot</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-32144623-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
