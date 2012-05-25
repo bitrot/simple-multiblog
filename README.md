@@ -43,12 +43,12 @@ _Quick Note: The -w flag for gunicorn signifies how many processes (read workers
 
 To deploy, install & setup [NGINX](http://nginx.org/). See how to configure NGINX with Gunicorn [here](http://gunicorn.org/deploy.html).
 
-Navigate to your simple-multiblog directory and start some gunicorn processes: ``gunicorn -w 4 -b unix:/tmp/gunicorn.sock -D``
+Navigate to your simple-multiblog directory and start some gunicorn processes: ``gunicorn -w 4 -b unix:/tmp/gunicorn.sock simple:app -D``
 
 
 ####Without NGINX
 
-To deploy without NGINX, navigate to the simple-multiblog directory and start some gunicorn processes: ``gunicorn -w 4 -b 0.0.0.0 -D``
+To deploy without NGINX, navigate to the simple-multiblog directory and start some gunicorn processes: ``gunicorn -w 4 -b 0.0.0.0 simple:app -D``
 
 Caveat! gunicorn is very susceptible to denial-of-service attacks without a proxy buffer like NGINX.
 
