@@ -1,12 +1,8 @@
 Simple Multiblog
 ================
-We really liked Simple, Obtvse, and Svbtle, but wanted multiple authors and a few other features.  The original Simple readme follows.  
-\- [rmacy](https://github.com/rmacy) and [ehaughee](https://github.com/ehaughee)
-
-
-Simple Multiblog
-================
 An extension of [Simple](https://github.com/orf/simple) that adds multiple author functionality.
+
+(We really liked Simple, Obtvse, and Svbtle, but wanted multiple authors and a few other features. \- [rmacy](https://github.com/rmacy) and [ehaughee](https://github.com/ehaughee))
 
 About
 ============
