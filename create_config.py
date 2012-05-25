@@ -29,7 +29,9 @@ with open("settings.py", "w") as fd:
 
     fd.write("POSTS_PER_PAGE = %s\n"%input_with_default("Posts per page", 5))
 
-    fd.write("ANALYTICS_ID = '%s'\n"%input_with_default("Analytics ID",""))
+    fd.write("ANALYTICS_ID = '%s'\n"%input_with_default("Analytics ID. Required for analytics.",""))
+
+    fd.write("DOMAIN_NAME = '%s'\n"%input_with_default("Your Domain Name. (i.e. bitrot.io) Required for analytics.",""))
 
     fd.write("DISQUS_SHORTNAME = '%s'\n"%input_with_default("Disqus Shortname",""))
 
@@ -37,13 +39,13 @@ with open("settings.py", "w") as fd:
 
     fd.write("BACKEND = '%s'\n"%(db_uri))
 
-    admin_username = input_with_default("Admin username","webguy")
+    admin_username = input_with_default("Admin Username","webguy")
 
     while admin_username in unapproved_user_names:
         print "That username is disallowed!"
-        admin_username = input_with_default("Admin username", "webguy")
+        admin_username = input_with_default("Admin Username", "webguy")
 
-    admin_password = generate_password_hash(input_with_default("Admin password","password"))
+    admin_password = generate_password_hash(input_with_default("Admin Password","password"))
 
     admin_email = input_with_default("Contact Email", "")
 
