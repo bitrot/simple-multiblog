@@ -19,20 +19,15 @@ under the name [bitrot](https://github.com/bitrot).
 
 Installation
 ============
-First clone the repo:
-``git clone git://github.com/bitrot/simple-multiblog.git``
+First clone the repo: ``git clone git://github.com/bitrot/simple-multiblog.git``
 
-Install [Gunicorn](http://gunicorn.org) with [PIP](https://crate.io/packages/pip/):
-``pip install gunicorn``
+Install [Gunicorn](http://gunicorn.org) with [PIP](https://crate.io/packages/pip/): ``pip install gunicorn``
 
-Descend into the simple-multiblog directory:
-``cd simple-multiblog``
+Descend into the simple-multiblog directory: ``cd simple-multiblog``
 
-Install dependancies:
-``pip install -U -r .requirements``
+Install dependancies: ``pip install -U -r .requirements``
 
-Create the config:
-``python create_config.py``
+Create the config: ``python create_config.py``
 
 And you're good to go!
 
@@ -40,7 +35,31 @@ And you're good to go!
 
 Deployment
 ============
-TODO
+
+####Quick Note: The -w flag for gunicorn signifies how many processes (read workers) you want to start. The recomended amount of workers is 2x the number of cores per CPU.
+
+
+(With NGINX)
+
+To deploy, install & setup [NGINX](http://nginx.org/). See how to configure NGINX with Gunicorn [here](http://gunicorn.org/deploy.html).
+
+Navigate to your simple-multiblog directory and start some gunicorn proccesses: ``gunicorn -w 4 -b unix:/tmp/gunicorn.sock -D``
+
+
+(Without NGINX)
+
+To deploy without NGINX, navigate to the simple-multiblog directory and start some gunicorn processes: ``gunicorn -w 4 -b 0.0.0.0 -D``
+
+####(Caveat! gunicorn is very susceptible to denial-of-service attacks without a proxy buffer like NGINX.)
+
+
+(Flask Development Server)
+
+Naviagate to your simple-multiblog directory and run: ``python simple.py`` to start the development server.
+
+Open ``simple.py`` with your favorite editor and change ``app.debug = False`` to ``app.debug = True`` to turn on the development features of Flask.
+
+The server will automatically reload when it detects a code change when ``app.debug = True`` is set.
 
 Example
 ============
