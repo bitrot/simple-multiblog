@@ -42,7 +42,6 @@
             {% if author.email %}
                 <li><a href="mailto:{{ author.email }}?subject:Howdy">Email me</a></li>
             {% endif %}
-            <li><a href="{{ url_for('get_author_feed', author=author.username) }}">Feed</a></li>
         {% else %}
             {% for author in authors %}
                 <div id="authors">
