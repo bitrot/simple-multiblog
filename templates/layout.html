@@ -22,12 +22,12 @@
             <a href="{{ url_for('get_author_posts', author=author.username) }}">
                 {{ author.username }}
             </a>
-            <a class="rss" href="{{ url_for('get_author_feed', author=author.username) }}"><img class="rss" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}"></a>
+            <a class="rss" href="{{ url_for('get_author_feed', author=author.username) }}"><img class="rss" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" /></a>
         {% else %}
             <a href="{{ url_for('index') }}">
                 {{ config.BLOG_NAME }}
             </a>
-            <a class="rss" href="{{ url_for('feed') }}"><img class="rss" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}"></a>
+            <a class="rss" href="{{ url_for('feed') }}"><img class="rss" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" /></a>
         {% endif %}
     </h1>
     <ul>
@@ -37,10 +37,10 @@
                 <br />
             {% endif %}
             {% if author.github %}
-                <li><a href="https://github.com/{{ author.github }}/">Github</a></li>
+                <li><img src="{{ url_for('static', filename='img/glyphicons_381_github.png') }}" height="12" width="12" />&nbsp;<a href="https://github.com/{{ author.github }}/">Github</a></li>
             {% endif %}
             {% if author.email %}
-                <li><a href="mailto:{{ author.email }}?subject:Howdy">Email me</a></li>
+                <li><img src="{{ url_for('static', filename='img/glyphicons_010_envelope.png') }}" height="12" width="12" />&nbsp;<a href="mailto:{{ author.email }}?subject:Howdy">Email me</a></li>
             {% endif %}
         {% else %}
             {% for author in authors %}
@@ -48,9 +48,9 @@
                     {% if author.gravatar_url %}
                         <li class="gravatar"><a href="{{ url_for('get_author_posts', author=author.username) }}"><img src="{{ author.gravatar_url }}" /></a></li>
                     {% endif %}
-                        <li class="gh-authors">[author] <a href="{{ url_for('get_author_posts', author=author.username) }}">{{ author.username }}</a></li>
+                        <li class="gh-authors"><a href="{{ url_for('get_author_posts', author=author.username) }}">{{ author.username }}</a></li>
                     {% if author.github %}
-                        <li class="gh-authors">[github] <a href="https://github.com/{{ author.github }}/">{{ author.github }}</a></li>
+                        <li class="gh-authors"><a href="https://github.com/{{ author.github }}/">{{ author.github }}</a></li>
                     {% endif %}
                 </div>
             {% endfor %}
