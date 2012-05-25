@@ -36,24 +36,24 @@ And you're good to go!
 Deployment
 ============
 
-####Quick Note: The -w flag for gunicorn signifies how many processes (read workers) you want to start. The recomended amount of workers is 2x the number of cores per CPU.
+Quick Note: The -w flag for gunicorn signifies how many processes (read workers) you want to start. The recomended amount of workers is 2x the number of cores per CPU.
 
 
-(With NGINX)
+####With NGINX
 
 To deploy, install & setup [NGINX](http://nginx.org/). See how to configure NGINX with Gunicorn [here](http://gunicorn.org/deploy.html).
 
 Navigate to your simple-multiblog directory and start some gunicorn proccesses: ``gunicorn -w 4 -b unix:/tmp/gunicorn.sock -D``
 
 
-(Without NGINX)
+####Without NGINX
 
 To deploy without NGINX, navigate to the simple-multiblog directory and start some gunicorn processes: ``gunicorn -w 4 -b 0.0.0.0 -D``
 
-####(Caveat! gunicorn is very susceptible to denial-of-service attacks without a proxy buffer like NGINX.)
+Caveat! gunicorn is very susceptible to denial-of-service attacks without a proxy buffer like NGINX.
 
 
-(Flask Development Server)
+####Flask Development Server
 
 Naviagate to your simple-multiblog directory and run: ``python simple.py`` to start the development server.
 
