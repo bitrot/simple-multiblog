@@ -11,8 +11,24 @@ require a database server, has a small footprint and is fairly fast.
 
 Installation
 ============
-Its quite simple. Go download Python 2.7+, Flask, Sqlalchemy and flask-sqlalchemy and you are good to go.
-To create a settings file run create_config.py and enter some details, then run simple.py.
+First clone the repo:
+``git clone git://github.com/bitrot/simple-multiblog.git``
+
+Install [Gunicorn](http://gunicorn.org) with [PIP](https://crate.io/packages/pip/):
+``pip install gunicorn``
+
+Descend into the simple-multiblog directory:
+``cd simple-multiblog``
+
+Install dependancies:
+``pip install -U -r .requirements``
+
+Create the config:
+``python create_config.py``
+
+And you're good to go!
+
+(To add users run ``python add_user.py``)
 
 Deployment
 ============
