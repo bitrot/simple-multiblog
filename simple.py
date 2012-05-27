@@ -292,8 +292,11 @@ def logout():
     session.pop('user_name', None)
     session.pop('user_id', None)
 
-    return abort(401)
+    return render_template('logout.html'), 401
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 
 if __name__ == "__main__":
