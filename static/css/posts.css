@@ -111,7 +111,7 @@ header li a:hover {
 }
 
 #container {
-    margin-left: 243px;
+    margin-left: 260px;
     position: relative;
 }
 
@@ -421,7 +421,6 @@ label {
     margin: 0;
     padding: 0;
     outline: 0;
-    border: 0;
 }
 
 #admin .expandingArea {
