@@ -1,6 +1,5 @@
 from sys import exit
 from werkzeug.security import generate_password_hash
-from traceback import format_exc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
@@ -23,13 +22,13 @@ def make_gravatar(email):
     url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
     return url
 
-admin_username = input_with_default("Admin username","webguy")
+admin_username = input_with_default("Admin Username","webguy")
 
 while admin_username in unapproved_user_names:
     print "That username is disallowed!"
-    admin_username = input_with_default("Admin username", "webguy")
+    admin_username = input_with_default("Admin Username", "webguy")
 
-admin_password = generate_password_hash(input_with_default("Admin password","password"))
+admin_password = generate_password_hash(input_with_default("Admin Password","password"))
 
 admin_email = input_with_default("Contact Email", "")
 
@@ -41,13 +40,15 @@ admin_gravatar = make_gravatar(admin_email)
 
 admin_github = input_with_default("Github Username", "")
 
+admin_linkedin = input_with_default("LinkedIn URL, (http://www.linkedin.com/in/ryanmacy; the ryanmacy portion)", "")
+
 import model
 Engine = create_engine(settings.BACKEND)
 Session = sessionmaker(bind=Engine)
 session = Session()
 
 try:
-    params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'email': admin_email, 'gravatar': admin_gravatar}
+    params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'linkedin': admin_linkedin, 'email': admin_email, 'gravatar': admin_gravatar}
     user = model.Author(**params)
     session.add(user)
     session.commit()

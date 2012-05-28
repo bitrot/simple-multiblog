@@ -16,6 +16,7 @@ class Author(Base):
     email        = Column(String(255), nullable = False)
     gravatar     = Column(String(255), nullable = False)
     github       = Column(String(255))
+    linkedin     = Column(String(255))
     bio          = Column(Text)
     post         = relationship('Post', backref='author')
     created_at   = Column(DateTime, default=datetime.datetime.utcnow(), index = True, nullable = False)

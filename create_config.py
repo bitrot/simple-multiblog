@@ -29,9 +29,9 @@ with open("settings.py", "w") as fd:
 
     fd.write("POSTS_PER_PAGE = %s\n"%input_with_default("Posts per page", 5))
 
-    fd.write("ANALYTICS_ID = '%s'\n"%input_with_default("Analytics ID. Required for analytics.",""))
+    fd.write("ANALYTICS_ID = '%s'\n"%input_with_default("Analytics ID, Required for analytics",""))
 
-    fd.write("DOMAIN_NAME = '%s'\n"%input_with_default("Your Domain Name. (i.e. bitrot.io) Required for analytics.",""))
+    fd.write("DOMAIN_NAME = '%s'\n"%input_with_default("Your Domain Name, (bitrot.io; no http:// or trailing slash), Required for analytics",""))
 
     fd.write("DISQUS_SHORTNAME = '%s'\n"%input_with_default("Disqus Shortname",""))
 
@@ -57,13 +57,15 @@ with open("settings.py", "w") as fd:
 
     admin_github = input_with_default("Github Username", "")
 
+    admin_linkedin = input_with_default("LinkedIn URL, (http://www.linkedin.com/in/ryanmacy; the ryanmacy portion)", "")
+
     fd.write("BLOG_NAME = '%s'\n"%input_with_default("Blog Name","Simple-MB"))
 
-    blog_url = input_with_default("Blog URL (Please do not include the trailing slash!)","")
+    blog_url = input_with_default("Blog URL, (Please do not include the trailing slash; http://bitrot.io, not http://bitrot.io/)","")
 
     while not blog_url:
         print "You must enter a URL!"
-        blog_url = input_with_default("Blog URL (Please do not include the trailing slash!)","")
+        blog_url = input_with_default("Blog URL, (Please do not include the trailing slash; http://bitrot.io, not http://bitrot.io/)","")
 
     fd.write("BLOG_URL = '%s'\n"%blog_url)
 
@@ -79,7 +81,7 @@ Session = sessionmaker(bind=Engine)
 session = Session()
 try:
     model.Base.metadata.create_all(Engine)
-    params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'email': admin_email, 'gravatar': admin_gravatar}
+    params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'linkedin': admin_linkedin, 'email': admin_email, 'gravatar': admin_gravatar}
     user = model.Author(**params)
     session.add(user)
     session.commit()
