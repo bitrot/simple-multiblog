@@ -1,4 +1,5 @@
 /* shamelessly stolen from https://github.com/NateW/obtvse/blob/master/app/assets/stylesheets/posts.css.scss */
+
 aside {
     position: relative;
     display: block;
@@ -48,11 +49,6 @@ h1,
 p {
     color: #555;
 }
-
-code.prettyprint {
-    line-height: 1.2em;
-}
-
 
 div.bottom_right {
     display: block;
@@ -143,11 +139,7 @@ header li a:hover {
 }
 
 code {
-    font-size: 13px;
-    background: #F2F2F2;
-    padding: 2px;
-    margin: 2px;
-    display: inline-block;
+    font-size: 14px;
 }
 
 .contain,

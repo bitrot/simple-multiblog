@@ -5,14 +5,17 @@
     <link href="{{ url_for('static', filename='css/_normalize.css') }}" type="text/css" media="screen" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/posts.css') }}" type="text/css" media="screen" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/s-mb.css') }}" type="text/css" media="screen" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/monokai.css') }}" type="text/css"  media="screen" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,900" type="text/css" media="screen" rel="stylesheet">
+
     {% if author %}
         <link href="{{ url_for('get_author_feed', author=author.username) }}" rel="alternate" title="RSS" type="application/rss+xml" />
     {% else %}
         <link href="{{ url_for('feed') }}" rel="alternate" title="RSS" type="application/rss+xml" />
     {% endif %}
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,900' rel='stylesheet' type='text/css' />
-    <link href="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.css" rel="stylesheet" type="text/css">
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js" type="text/javascript"></script>
+
+    <script src="{{ url_for('static', filename='js/highlight.pack.js') }}" type="text/javascript"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 </head>
 
 {% if config['IDL'] %}
