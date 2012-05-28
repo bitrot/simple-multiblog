@@ -5,7 +5,6 @@ from sys import exit
 from werkzeug.security import check_password_hash
 from unicodedata import normalize
 from model import Post, Author
-from flaskext.oauth import OAuth
 from flaskext.sqlalchemy import SQLAlchemy
 from flask import render_template, session, request, Flask, flash, redirect, url_for, abort, jsonify, Response as response, make_response
 from functools import wraps
