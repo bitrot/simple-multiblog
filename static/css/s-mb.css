@@ -65,3 +65,9 @@ img.r-icon {
     right: 10px;
     top: 0px;
 }
+
+h1.in-the-middle {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+}
