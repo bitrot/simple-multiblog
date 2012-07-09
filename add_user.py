@@ -1,16 +1,17 @@
+# -*- coding: utf-8 -*-
+
 from sys import exit
 from werkzeug.security import generate_password_hash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
+from simple import unapproved_user_names
 import hashlib
 
 try:
     import settings
 except ImportError:
-    exit("You need to create the settings file before you can add more users!")
-
-unapproved_user_names = ['admin', 'Admin', 'new', 'New', 'edit', 'Edit', 'delete', 'Delete', 'preview', 'Preview', 'save', 'Save', 'logout', 'Logout']
+    exit("Cannot create user without a generated settings file.")
 
 def input_with_default(prompt, default):
     x = raw_input("%s (Default %s) "%(prompt, default))

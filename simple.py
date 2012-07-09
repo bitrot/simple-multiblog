@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import re
 import datetime
 import urllib
@@ -19,6 +21,13 @@ try:
     db_session = Session()
 except ImportError:
     exit("You need to create the settings file before you can run simple-multiblog!")
+
+
+#&&&&&&&&&&&&&&&&&&&&&&&&&#
+# Script config Variables #
+#&&&&&&&&&&&&&&&&&&&&&&&&&#
+
+unapproved_user_names = ['admin', 'Admin', 'new', 'New', 'edit', 'Edit', 'delete', 'Delete', 'preview', 'Preview', 'save', 'Save', 'logout', 'Logout']
 
 
 #$$$$$$$#
