@@ -59,7 +59,6 @@ def requires_authentication(f):
         session["user_name"] = author.username
         session["user_id"]  = author.id
 
-        
         return f(*args, **kwargs)
 
     return _auth_decorator

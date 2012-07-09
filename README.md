@@ -25,7 +25,7 @@ Install [Gunicorn](http://gunicorn.org) with [PIP](https://crate.io/packages/pip
 
 Descend into the simple-multiblog directory: ``cd simple-multiblog``
 
-Install dependancies: ``pip install -U -r .requirements``
+Install dependancies: ``pip install -U -r .requirement``
 
 Create the config: ``python create_config.py``
 
