@@ -60,7 +60,7 @@ def requires_authentication(f):
                     app.logger.debug(format_exc())
                     return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
 
-                if not check_password_hash(author.password, auth.password):
+                if not author or not check_password_hash(author.password, auth.password):
                     return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
             else:
                 return response("Could not authenticate you", 401, {"WWW-Authenticate":'Basic realm="Login Required"'})
