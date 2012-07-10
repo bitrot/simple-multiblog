@@ -12,17 +12,18 @@ Base = declarative_base()
 class Author(Base):
     __tablename__ = "authors"
 
-    id           = Column(Integer(11), Sequence('author_id_sequence'), primary_key = True, nullable = False)
-    username     = Column(String(255), unique = True, index = True, nullable = False)
-    password     = Column(String(255), nullable = False)
-    email        = Column(String(255), nullable = False)
-    gravatar     = Column(String(255), nullable = False)
-    github       = Column(String(255))
-    linkedin     = Column(String(255))
-    bio          = Column(Text)
-    post         = relationship('Post', backref='author')
-    created_at   = Column(DateTime, default=datetime.datetime.utcnow(), index = True, nullable = False)
-    updated_at   = Column(DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow(), nullable = False)
+    id              = Column(Integer(11), Sequence('author_id_sequence'), primary_key = True, nullable = False)
+    username        = Column(String(255), unique = True, index = True, nullable = False)
+    password        = Column(String(255), nullable = False)
+    email           = Column(String(255), nullable = False)
+    gravatar        = Column(String(255), nullable = False)
+    github          = Column(String(255))
+    linkedin        = Column(String(255))
+    stackexchange   = Column(Integer(11))
+    bio             = Column(Text)
+    post            = relationship('Post', backref='author')
+    created_at      = Column(DateTime, default=datetime.datetime.utcnow(), index = True, nullable = False)
+    updated_at      = Column(DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow(), nullable = False)
 
     def __init__(self, *args, **kwargs):
         for key in kwargs:

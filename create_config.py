@@ -58,7 +58,9 @@ with open("settings.py", "w") as fd:
 
     admin_github = input_with_default("Github Username", "")
 
-    admin_linkedin = input_with_default("LinkedIn URL, (http://www.linkedin.com/in/ryanmacy; the ryanmacy portion)", "")
+    admin_linkedin = input_with_default("LinkedIn Username, (http://www.linkedin.com/in/{uname})", "")
+
+    admin_stackexchange = input_with_default("Stack Exchange ID (www.stackoverflow.com/u/{id}", "")
 
     fd.write("BLOG_NAME = '%s'\n"%input_with_default("Blog Name","Simple-MB"))
 
@@ -80,9 +82,18 @@ import model
 Engine = create_engine(db_uri)
 Session = sessionmaker(bind=Engine)
 session = Session()
+
 try:
     model.Base.metadata.create_all(Engine)
-    params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'linkedin': admin_linkedin, 'email': admin_email, 'gravatar': admin_gravatar}
+    params = {
+        'username': admin_username,
+        'password': admin_password,
+        'github': admin_github,
+        'linkedin': admin_linkedin,
+        'stackexchange': admin_stackexchange,
+        'email': admin_email,
+        'gravatar': admin_gravatar
+    }
     user = model.Author(**params)
     session.add(user)
     session.commit()
