@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
 # The goal of this file is to present a list of options in the command line,
-# select an option, and then update that option, finally re-presenting that
+# select an option, and then update that option, finally representing that
 # list. The list will have an exit option.
 
 from sys import exit
