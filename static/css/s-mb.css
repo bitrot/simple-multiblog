@@ -3,18 +3,20 @@ h1.title {
     font-variant: small-caps;
 }
 
-li.gravatar, li.gravatar a {
+div.gravatar, div.gravatar a {
     border: 0px;
     text-align: center;
 }
 
-li.gravatar img {
+div.gravatar img {
     webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
 }
 
 #authors {
+    text-align: center;
+    overflow: scroll;
     margin-bottom: 20px;
 }
 
