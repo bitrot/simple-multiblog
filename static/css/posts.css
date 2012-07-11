@@ -87,6 +87,7 @@ header span {
 header span.powered-by {
     position: absolute;
     bottom: 20px;
+    left: 20px;
     font-size: 11px;
 }
 
