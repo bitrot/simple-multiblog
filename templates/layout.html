@@ -63,7 +63,7 @@
                 <li><img src="{{ url_for('static', filename='img/glyphicons_377_linked_in.png') }}" class="r-icon" />&nbsp;<a href="http://www.linkedin.com/in/{{ author.linkedin }}/">LinkedIn</a></li>
             {% endif %}
             {% if author.email %}
-                <li><img src="{{ url_for('static', filename='img/glyphicons_399_e-mail.png') }}" class="m-icon" />&nbsp;<a href="mailto:{{ author.email }}?subject:Howdy">{{ author.email }}</a></li>
+                <li><img src="{{ url_for('static', filename='img/glyphicons_399_e-mail.png') }}" class="r-icon" />&nbsp;<a href="mailto:{{ author.email }}?subject:Howdy">{{ author.email }}</a></li>
             {% endif %}
         </ul>
     {% elif authors %}
