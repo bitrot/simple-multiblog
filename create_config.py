@@ -5,7 +5,7 @@ from traceback import format_exc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
-from simple import unapproved_user_names
+#from simple import unapproved_user_names
 import hashlib
 import os
 
@@ -42,9 +42,11 @@ with open("settings.py", "w") as fd:
 
     admin_username = input_with_default("Admin Username","webguy")
 
-    while admin_username in unapproved_user_names:
-        print "That username is disallowed!"
-        admin_username = input_with_default("Admin Username", "webguy")
+# TODO: This, and its accompanying include above, cause the application to execute before
+#       the settings file has been created
+#    while admin_username in unapproved_user_names:
+#        print "That username is disallowed!"
+#        admin_username = input_with_default("Admin Username", "webguy")
 
     admin_password = generate_password_hash(input_with_default("Admin Password","password"))
 
@@ -60,7 +62,7 @@ with open("settings.py", "w") as fd:
 
     admin_linkedin = input_with_default("LinkedIn Username, (http://www.linkedin.com/in/{uname})", "")
 
-    admin_stackexchange = input_with_default("Stack Exchange ID (www.stackoverflow.com/u/{id}", "")
+    admin_stackoverflow = input_with_default("Stack Overflow ID (www.stackoverflow.com/users/{id}", "")
 
     fd.write("BLOG_NAME = '%s'\n"%input_with_default("Blog Name","Simple-MB"))
 
@@ -90,7 +92,7 @@ try:
         'password': admin_password,
         'github': admin_github,
         'linkedin': admin_linkedin,
-        'stackexchange': admin_stackexchange,
+        'stackoverflow': admin_stackoverflow,
         'email': admin_email,
         'gravatar': admin_gravatar
     }

@@ -43,13 +43,15 @@ admin_github = input_with_default("Github Username", "")
 
 admin_linkedin = input_with_default("LinkedIn URL, (http://www.linkedin.com/in/ryanmacy; the ryanmacy portion)", "")
 
+admin_stackoverflow = input_with_default("Stack Overflow ID (www.stackoverflow.com/users/{id}", "")
+
 import model
 Engine = create_engine(settings.BACKEND)
 Session = sessionmaker(bind=Engine)
 session = Session()
 
 try:
-    params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'linkedin': admin_linkedin, 'email': admin_email, 'gravatar': admin_gravatar}
+    params = {'username': admin_username, 'password': admin_password, 'github': admin_github, 'linkedin': admin_linkedin, 'stackoverflow': admin_stackoverflow, 'email': admin_email, 'gravatar': admin_gravatar}
     user = model.Author(**params)
     session.add(user)
     session.commit()

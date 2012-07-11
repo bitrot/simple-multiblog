@@ -42,28 +42,31 @@
             <a href="{{ url_for('get_author_posts', author=author.username) }}">
                 {{ author.username }}
             </a>
-            <a class="rss" href="{{ url_for('get_author_feed', author=author.username) }}"><img class="rss r-icon" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" /></a>
+            <a class="rss" href="{{ url_for('get_author_feed', author=author.username) }}"><img class="rss r-icon" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" title="RSS" /></a>
         {% else %}
             <a href="{{ url_for('index') }}">
                 {{ config.BLOG_NAME }}
             </a>
-            <a class="rss" href="{{ url_for('feed') }}"><img class="rss r-icon" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" /></a>
+            <a class="rss" href="{{ url_for('feed') }}"><img class="rss r-icon" src="{{ url_for('static', filename='img/glyphicons_397_rss.png') }}" title="RSS"/></a>
         {% endif %}
     </h1>
     {% if author %}
         <ul>
             {% if author.gravatar_url %}
-                <li class="gravatar"><a href="{{ url_for('get_author_posts', author=author.username) }}"><img src="{{ author.gravatar_url }}" /></a></li>
+                <li class="gravatar"><a href="{{ url_for('get_author_posts', author=author.username) }}"><img src="{{ author.gravatar_url }}" title="{{ author.username }}"/></a></li>
                 <br />
             {% endif %}
             {% if author.github %}
-                <li><img src="{{ url_for('static', filename='img/glyphicons_381_github.png') }}" class="r-icon" />&nbsp;<a href="https://github.com/{{ author.github }}/">Github</a></li>
+                <li><img src="{{ url_for('static', filename='img/glyphicons_381_github.png') }}" class="r-icon" title="Github" />&nbsp;<a href="https://github.com/{{ author.github }}/">Github</a></li>
             {% endif %}
             {% if author.linkedin %}
-                <li><img src="{{ url_for('static', filename='img/glyphicons_377_linked_in.png') }}" class="r-icon" />&nbsp;<a href="http://www.linkedin.com/in/{{ author.linkedin }}/">LinkedIn</a></li>
+                <li><img src="{{ url_for('static', filename='img/glyphicons_377_linked_in.png') }}" class="r-icon" title="LinkedIn" />&nbsp;<a href="http://www.linkedin.com/in/{{ author.linkedin }}/">LinkedIn</a></li>
             {% endif %}
             {% if author.email %}
-                <li><img src="{{ url_for('static', filename='img/glyphicons_399_e-mail.png') }}" class="r-icon" />&nbsp;<a href="mailto:{{ author.email }}?subject:Howdy">{{ author.email }}</a></li>
+                <li><img src="{{ url_for('static', filename='img/glyphicons_399_e-mail.png') }}" class="r-icon" title="Email" />&nbsp;<a href="mailto:{{ author.email }}?subject:Howdy">Email</a></li>
+            {% endif %}
+            {% if author.stackoverflow %}
+                <li><a href="http://stackoverflow.com/users/{{ author.stackoverflow }}">Stack Overflow</a></li>
             {% endif %}
         </ul>
     {% elif authors %}
@@ -72,7 +75,7 @@
                 <li>
                     {% for author in authors %}
                         {% if author.gravatar_url %}
-                            <div class="gravatar"><a href="{{ url_for('get_author_posts', author=author.username) }}"><img src="{{ author.gravatar_url }}" /></a></div>
+                            <div class="gravatar"><a href="{{ url_for('get_author_posts', author=author.username) }}"><img src="{{ author.gravatar_url }}" title="{{author.username}}"/></a></div>
                         {% endif %}
                     {% endfor %}
                 </li>
