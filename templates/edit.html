@@ -1,17 +1,49 @@
 {% extends "admin_template.html" %}
 
 {% block head %}
-    {% if post.draft %}
-        <script type="text/javascript">
-            function SaveTick(){
-                issueSaveAjax({{ post.id }}, false);
-                setTimeout("SaveTick()", 10000)
-            }
-            $(document).ready(function(){
+    <script src="{{ url_for('static', filename='js/epiceditor.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var editor = null;
+        $(document).ready(function() {
+            var opts = {
+                container: 'post_content',
+                basePath: "{{ url_for('static', filename='epiceditor/') }}",
+                localStorageName: 'epiceditor_{{post.id}}',
+                parser: marked,
+                file: {
+                    name: 'epiceditor_{{post.id}}',
+                    defaultContent: "{{ post.text }}".replace(/\"/g,/\\"/g),
+                    autoSave: 100
+                },
+                theme: {
+                    base:'/themes/base/epiceditor.css',
+                    preview:'/themes/preview/preview-dark.css',
+                    editor:'/themes/editor/epic-dark.css'
+                },
+                focusOnLoad: false,
+                shortcut: {
+                    modifier: 18,
+                    fullscreen: 70,
+                    preview: 80,
+                    edit: 79
+                }
+            };
+
+            editor = new EpicEditor(opts).load();
+
+            {% if post.draft %}
                 setTimeout("SaveTick();", 10000);
-            })
-        </script>
-    {% endif %}
+            });
+
+            function SaveTick() {
+                elem = editor.getElement('editor').body
+                issueSaveAjax({{ post.id }}, false, elem);
+                setTimeout("SaveTick()", 10000);
+            }
+            {% else %}
+            });
+            {% endif %}
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -23,8 +55,8 @@
                     <textarea cols="40" id="post_title" name="post_title" placeholder="Title here" rows="1">{{ post.title }}</textarea>
                 </div>
                 <fieldset class="markdown">
-                    <div class="expandingArea text-content">
-                        <textarea cols="40" id="post_content" name="post_content" placeholder="Write post here" rows="20">{{ post.text }}</textarea>
+                    <div id="post_content" class="expandingArea text-content" style="height: 350px;">
+                        <!--<textarea cols="40" id="post_content" name="post_content" placeholder="Write post here" rows="20">{{ post.text }}</textarea>-->
                     </div>
                 </fieldset>
             </div>
