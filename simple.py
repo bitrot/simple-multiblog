@@ -27,7 +27,7 @@ except ImportError:
 # Script config Variables #
 #&&&&&&&&&&&&&&&&&&&&&&&&&#
 
-unapproved_user_names = ['admin', 'Admin', 'new', 'New', 'edit', 'Edit', 'delete', 'Delete', 'preview', 'Preview', 'save', 'Save', 'logout', 'Logout']
+unapproved_user_names = ('admin', 'Admin', 'new', 'New', 'edit', 'Edit', 'delete', 'Delete', 'preview', 'Preview', 'save', 'Save', 'logout', 'Logout')
 
 
 #$$$$$$$#
@@ -39,6 +39,13 @@ app.debug = True
 app.config.from_object('settings')
 app.secret_key = app.config["SECRET_KEY"]
 
+#^^^^^^^^^^^^^^^^^^^^^^^#
+# CUSTOM JINJA2 FILTERS #
+#^^^^^^^^^^^^^^^^^^^^^^^#
+def regex(value, expression, replace):
+    return re.sub(expression, replace, value)
+
+app.jinja_env.filters['regex'] = regex
 
 #%%%%%%%#
 # UTILS #
