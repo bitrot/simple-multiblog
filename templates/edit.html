@@ -12,7 +12,7 @@
                 parser: marked,
                 file: {
                     name: 'epiceditor_{{post.id}}',
-                    defaultContent: "{{ post.text }}".replace(/\"/g,/\\"/g),
+                    defaultContent: "{{ post.text|regex('\"', '\\\"')|regex('[\n\r]', '\\\" + \\\"') }}",
                     autoSave: 100
                 },
                 theme: {
@@ -31,9 +31,16 @@
 
             editor = new EpicEditor(opts).load();
 
+            // Store existing content in the browser
+            editor.save(opts.defaultContent);
+
             $('#save').click(function (e) {
                 $(this).val('Saving...');
 
+                // Epic editor save
+                editor.save();
+
+                // Simple MB save
                 SavePost();
 
                 $(this).val('Saved');
@@ -47,7 +54,7 @@
         });
 
         function SaveTick() {
-            elem = editor.getElement('editor').body
+            elem = editor.getElement('editor').body;
             issueSaveAjax({{ post.id }}, false, elem);
             setTimeout("SaveTick()", 10000);
         }
@@ -55,7 +62,7 @@
         });
 
         function SavePost() {
-            elem = editor.getElement('editor').body
+            elem = editor.getElement('editor').body;
             issueSaveAjax({{ post.id }}, false, elem);
         }
         {% endif %}

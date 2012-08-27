@@ -939,11 +939,18 @@
    * Saves content for offline use
    * @returns {object} EpicEditor will be returned
    */
-  EpicEditor.prototype.save = function () {
+  EpicEditor.prototype.save = function (existingText) {
     var self = this
       , storage
       , file = self.settings.file.name
-      , content = _getText(this.editor);
+      , content;
+
+    if (existingText === undefined) {
+        content = _getText(this.editor);
+    }
+    else {
+        content = existingText;
+    }
 
     // This could have been false but since we're manually saving
     // we know it's save to start autoSaving again

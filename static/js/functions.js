@@ -59,8 +59,7 @@ function issueSaveAjax(id, redirect, elem) {
         }
     });
     req.done(function(message) {
-        if (redirect)
-        {
+        if (redirect) {
             var win = window.open("/preview/"+id, '_blank');
         }
     });
