@@ -1,5 +1,4 @@
 // 100% stolen from yiransheng/simple
-
 //$.fn.autogrow = function(options) {
 //
 //    this.filter('textarea').each(function() {
@@ -40,30 +39,33 @@
 //
 //};
 
-
-function issueSaveAjax(id, redirect, elem){
+function issueSaveAjax(id, redirect, elem) {
     var ptitle   = $("#post_title").val();
     var pcontent = '';
-    if (elem)
+
+    // TODO: Revisit this logic
+    if (elem && typeof(elem) == 'object') {
         pcontent = elem.innerText;
-    else
+    } else {
         pcontent = $("#post_content").val();
+    }
 
     var req = $.ajax({
         type: "POST",
         url:"/save/"+id,
-        data: {title: ptitle,
-               content: pcontent}
+        data: {
+            title: ptitle,
+            content: pcontent
+        }
     });
-    req.done(function(message)
-    {
+    req.done(function(message) {
         if (redirect)
         {
             var win = window.open("/preview/"+id, '_blank');
         }
-    })
+    });
 }
-//
+
 //$(function() {
 //    $('textarea').autogrow();
 //});

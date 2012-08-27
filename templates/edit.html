@@ -31,18 +31,34 @@
 
             editor = new EpicEditor(opts).load();
 
-            {% if post.draft %}
-                setTimeout("SaveTick();", 10000);
+            $('#save').click(function (e) {
+                $(this).val('Saving...');
+
+                SavePost();
+
+                $(this).val('Saved');
+                setTimeout("$(this).val('Save');", 2000);
+                e.preventDefault();
+                return false;
             });
 
-            function SaveTick() {
-                elem = editor.getElement('editor').body
-                issueSaveAjax({{ post.id }}, false, elem);
-                setTimeout("SaveTick()", 10000);
-            }
-            {% else %}
-            });
-            {% endif %}
+        {% if post.draft %}
+            setTimeout("SaveTick();", 10000);
+        });
+
+        function SaveTick() {
+            elem = editor.getElement('editor').body
+            issueSaveAjax({{ post.id }}, false, elem);
+            setTimeout("SaveTick()", 10000);
+        }
+        {% else %}
+        });
+
+        function SavePost() {
+            elem = editor.getElement('editor').body
+            issueSaveAjax({{ post.id }}, false, elem);
+        }
+        {% endif %}
     </script>
 {% endblock %}
 
@@ -74,7 +90,7 @@
                         {% else %}
                             <a href="{{  url_for('get_author_slug', author=post.author.username, slug=post.slug) }}" target="_blank">View live</a>
                         {% endif %}
-                        <input name="commit" type="submit" value="Save" target="_blank"/>
+                        <input id="save" name="commit" type="submit" value="Save" target="_blank"/>
                     </div>
                 </div>
             </div>
